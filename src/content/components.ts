@@ -1,26 +1,36 @@
 import type { Apps } from "../types/components"
 import { getRuntime } from "./runtime"
 
-export function getComponents() {
+export function getComponents(): Apps {
     const components = getRuntime()?.components
 
-    if (!components) return {}
+    if (!components) {
+        return {}
+    }
 
     const apps: Apps = {}
 
-    components.forEach((key: string) => {
-        const match = key.match(/^(.+?)@([^/]+)\/(.+)$/)
+    components.forEach((component: string) => {
+        const match = component.match(/^(.+?)@([^/]+)\/(.+)$/)
 
-        if (!match) return
+        if (!match) {
+            return
+        }
 
         const [, app, version] = match
-        const appKey = `${app}@${version}`
 
-        if (!apps[appKey]) {
-            apps[appKey] = {
-                app,
-                version
-            }
+        const id = `${app}@${version}`
+
+        if (apps[id]) {
+            return
+        }
+
+        apps[id] = {
+            id,
+            app,
+            version,
+            component,
+            type: app.startsWith("vtex.") ? "VTEX" : "CUSTOM",
         }
     })
 

@@ -1,6 +1,9 @@
 export interface AppInfo {
-    app: string;
-    version: string;
+    id: string
+    app: string
+    version: string
+    component: string
+    type: "VTEX" | "CUSTOM"
 }
 
-export type Apps = Record<string, AppInfo>;
+export type Apps = Record<string, AppInfo>

@@ -25,4 +25,5 @@ export interface Runtime {
         canonicalBaseAddress: string
     }
     pages: string[]
+    components: string[]
 }
