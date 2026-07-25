@@ -1,21 +1,24 @@
 import { useState } from "react"
 
+import { Tab, type TabType } from "../types/Tab"
+
 import { Tabs } from "./components/Tabs/Tabs"
 import { ComponentsList } from "./components/ComponentsList/ComponentsList"
 import { OrderForm } from "./components/OrderForm/OrderForm"
+import { Runtime } from "./components/Runtime/Runtime"
 
 export const Popup = () => {
-    const [tab, setTab] = useState("components")
+    const [tab, setTab] = useState<TabType>(Tab.Runtime);
 
     return (
-        <div>
-            <h2>VTEX Inspector</h2>
+        <>
+            <Tabs value={tab} onChange={setTab} />
 
-            <Tabs tab={tab} setTab={setTab} />
-
-            { tab === "components" ? <ComponentsList /> : <OrderForm /> }
-        </div>
-    )
+            {tab === Tab.Runtime && <Runtime />}
+            {tab === Tab.Apps && <ComponentsList />}
+            {tab === Tab.OrderForm && <OrderForm />}
+        </>
+    );
 }
 
 export default Popup

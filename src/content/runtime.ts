@@ -1,6 +1,4 @@
-interface Runtime {
-    components: string[];
-}
+import type { Runtime } from "../types/runtime";
 
 interface RuntimeMessage {
     type: "VTEX_RUNTIME";
@@ -13,6 +11,8 @@ window.addEventListener("message", (event: MessageEvent<RuntimeMessage>) => {
     if (event.source !== window || event.data.type !== "VTEX_RUNTIME") {
         return
     }
+    console.log("VTEX_RUNTIME teste eretet", event.data.runtime);
+    
 
     vtexRuntime = event.data.runtime
 })

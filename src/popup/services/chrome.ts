@@ -1,15 +1,24 @@
 interface ChromeMessage {
-    type: "GET_COMPONENTS" | "GET_ORDERFORM";
+    type: "GET_COMPONENTS" | "GET_ORDERFORM" | "GET_RUNTIME_INFOS"
 }
 
-export function sendMessage<T>(message: ChromeMessage): Promise<T> {
+export function sendMessage<T>(message: ChromeMessage): Promise<T | null> {
     return new Promise(resolve => {
         chrome.tabs.query({ active: true, currentWindow: true }, ([tab]) => {
-            chrome.tabs.sendMessage(
-                tab.id!,
-                message,
-                resolve
-            )
+            if (!tab?.id) {
+                resolve(null)
+                return
+            }
+
+            chrome.tabs.sendMessage(tab.id, message, response => {
+                if (chrome.runtime.lastError) {
+                    console.error(chrome.runtime.lastError.message)
+                    resolve(null)
+                    return
+                }
+
+                resolve(response)
+            })
         })
     })
 }

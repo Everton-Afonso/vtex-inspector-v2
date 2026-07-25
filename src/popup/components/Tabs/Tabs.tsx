@@ -1,26 +1,35 @@
+import { Tab, type TabType } from "../../../types/Tab";
+
 import "./styles.css"
 
-type Props = {
-    tab: string
-    setTab: (tab: string) => void
+interface Props {
+    value: TabType;
+    onChange(tab: TabType): void;
 }
 
-export function Tabs({ tab, setTab }: Props) {
+export function Tabs({ value, onChange }: Props) {
     return (
         <div className="tabs">
             <button
-                className={tab === "components" ? "active" : ""}
-                onClick={() => setTab("components")}
+                className={value === Tab.Runtime ? "active" : ""}
+                onClick={() => onChange(Tab.Runtime)}
             >
-                Components
+                Runtime
             </button>
 
             <button
-                className={tab === "orderform" ? "active" : ""}
-                onClick={() => setTab("orderform")}
+                className={value === Tab.Apps ? "active" : ""}
+                onClick={() => onChange(Tab.Apps)}
+            >
+                Apps
+            </button>
+
+            <button
+                className={value === Tab.OrderForm ? "active" : ""}
+                onClick={() => onChange(Tab.OrderForm)}
             >
                 OrderForm
             </button>
         </div>
-    )
+    );
 }

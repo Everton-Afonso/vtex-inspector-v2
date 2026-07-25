@@ -5,7 +5,22 @@ function sendRuntime() {
         {
             type: "VTEX_RUNTIME",
             runtime: {
-                components: Object.keys(runtime.components)
+                account: runtime?.account,
+                workspace: runtime?.workspace,
+                production: runtime?.production,
+                platform: runtime?.platform,
+                page: runtime?.page,
+                route: runtime?.route?.id,
+                rootPath: runtime?.route?.path,
+                publicEndpoint: runtime?.publicEndpoint,
+                renderMajor: runtime?.renderMajor,
+                runtimeVersion: runtime?.runtimeMeta?.version,
+                culture: runtime?.culture,
+                hints: runtime?.hints,
+                loadedDevices: runtime?.loadedDevices,
+                binding: runtime?.binding,
+                components: Object.keys(runtime?.components ?? {}),
+                pages: Object.keys(runtime?.pages ?? {}),
             }
         }, "*"
     )
