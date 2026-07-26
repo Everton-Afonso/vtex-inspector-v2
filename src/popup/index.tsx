@@ -7,7 +7,7 @@ import { ComponentsList } from "./components/ComponentsList/ComponentsList"
 import { OrderForm } from "./components/OrderForm/OrderForm"
 import { Runtime } from "./components/Runtime/Runtime"
 
-export const Popup = () => {
+export function Popup() {
     const [tab, setTab] = useState<TabType>(Tab.Runtime);
 
     return (
@@ -20,5 +20,3 @@ export const Popup = () => {
         </>
     );
 }
-
-export default Popup

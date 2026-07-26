@@ -9,6 +9,8 @@ export interface OrderForm {
     clientProfileData: ClientProfileData;
     paymentData: PaymentData;
     shippingData: ShippingData;
+    clientPreferencesData: ClientPreferencesData;
+    storePreferencesData: StorePreferencesData;
 }
 
 export interface OrderFormItem {
@@ -65,4 +67,14 @@ export interface InstallmentOption {
 
 export interface PaymentData {
     installmentOptions: InstallmentOption[];
+}
+
+export interface ClientPreferencesData {
+    locale: string;
+}
+
+export interface StorePreferencesData {
+    countryCode: string;
+    currencyCode: string;
+    currencySymbol: string;
 }

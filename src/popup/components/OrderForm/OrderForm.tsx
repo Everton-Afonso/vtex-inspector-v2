@@ -1,9 +1,10 @@
-import { useOrderForm } from "../../hooks/useOrderForm"
+import { formatPrice } from "../../../utils/formatPrice";
+import { useOrderForm } from "../../hooks/useOrderForm";
 
-import "./styles.css"
+import "./styles.css";
 
 export function OrderForm() {
-    const orderForm = useOrderForm()
+    const orderForm = useOrderForm();
 
     if (!orderForm) {
         return (
@@ -12,35 +13,29 @@ export function OrderForm() {
                     <p>OrderForm not found</p>
                 </div>
             </div>
-        )
+        );
     }
+
+    const locale =
+        orderForm.clientPreferencesData?.locale ?? "pt-BR";
+
+    const currency =
+        orderForm.storePreferencesData?.currencyCode ?? "BRL";
 
     return (
         <div id="orderform-panel">
             <div id="orderform">
                 <div className="orderform-row">
                     <span className="orderform-label">ID</span>
+
                     <span className="orderform-value">
                         {orderForm.orderFormId}
                     </span>
                 </div>
 
                 <div className="orderform-row">
-                    <span className="orderform-label">Items</span>
-                    <span className="orderform-value">
-                        {orderForm.items.length}
-                    </span>
-                </div>
-
-                <div className="orderform-row">
-                    <span className="orderform-label">Value</span>
-                    <span className="orderform-value">
-                        {orderForm.value}
-                    </span>
-                </div>
-
-                <div className="orderform-row">
                     <span className="orderform-label">Email</span>
+
                     <span className="orderform-value">
                         {orderForm.clientProfileData?.email ?? "-"}
                     </span>
@@ -48,31 +43,87 @@ export function OrderForm() {
 
                 <div className="orderform-row">
                     <span className="orderform-label">City</span>
+
                     <span className="orderform-value">
                         {orderForm.shippingData.address.city ?? "-"}
                     </span>
                 </div>
+
                 <div className="orderform-row">
-                    <span className="orderform-label">PostalCode</span>
+                    <span className="orderform-label">
+                        Postal Code
+                    </span>
+
                     <span className="orderform-value">
                         {orderForm.shippingData.address.postalCode ?? "-"}
                     </span>
                 </div>
 
                 <div className="orderform-row">
-                    <span className="orderform-label">Country</span>
+                    <span className="orderform-label">
+                        Country
+                    </span>
+
                     <span className="orderform-value">
                         {orderForm.shippingData.address.country ?? "-"}
                     </span>
                 </div>
 
                 <div className="orderform-row">
-                    <span className="orderform-label">State</span>
+                    <span className="orderform-label">
+                        State
+                    </span>
+
                     <span className="orderform-value">
                         {orderForm.shippingData.address.state ?? "-"}
                     </span>
                 </div>
+
+                <div className="orderform-items">
+                    <h3>
+                        Items ({orderForm.items.length})
+                    </h3>
+
+                    {orderForm.items.map((item) => (
+                        <div
+                            key={item.uniqueId}
+                            className="orderform-item"
+                        >
+                            <div className="item-name">
+                                {item.name}
+                            </div>
+
+                            <div className="item-info">
+                                <span>
+                                    Qty: {item.quantity}
+                                </span>
+
+                                <span>
+                                    {formatPrice(
+                                        item.sellingPrice,
+                                        locale,
+                                        currency
+                                    )}
+                                </span>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+
+                <div className="orderform-row orderform-total">
+                    <span className="orderform-label">
+                        Total
+                    </span>
+
+                    <span className="orderform-value">
+                        {formatPrice(
+                            orderForm.value,
+                            locale,
+                            currency
+                        )}
+                    </span>
+                </div>
             </div>
         </div>
-    )
+    );
 }
