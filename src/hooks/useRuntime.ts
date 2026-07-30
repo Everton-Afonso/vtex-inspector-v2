@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 
 import { sendMessage } from "../services/chrome"
-import type { Runtime } from "../../types/runtime"
+import type { Runtime } from "../types/runtime"
 
 export function useRuntime() {
     const [runtime, setRuntime] = useState<Runtime | null>(null)

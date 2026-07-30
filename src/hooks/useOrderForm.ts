@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { sendMessage } from "../services/chrome"
-import type { OrderForm } from "../../types/orderform"
+import type { OrderForm } from "../types/orderform"
 
 export function useOrderForm() {
     const [orderForm, setOrderForm] = useState<OrderForm | null>(null)

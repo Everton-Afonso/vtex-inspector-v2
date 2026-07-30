@@ -1,26 +1,18 @@
-import { formatPrice } from "../../../utils/formatPrice";
-import { useOrderForm } from "../../hooks/useOrderForm";
+import { formatPrice } from "../../../utils/formatPrice"
+import { useOrderForm } from "../../../hooks/useOrderForm"
 
-import "./styles.css";
+import "./styles.css"
 
 export function OrderForm() {
-    const orderForm = useOrderForm();
+    const orderForm = useOrderForm()
 
-    if (!orderForm) {
-        return (
-            <div id="orderform-panel">
-                <div id="orderform">
-                    <p>OrderForm not found</p>
-                </div>
-            </div>
-        );
-    }
+    if (!orderForm) return <></>
 
     const locale =
-        orderForm.clientPreferencesData?.locale ?? "pt-BR";
+        orderForm.clientPreferencesData?.locale ?? "pt-BR"
 
     const currency =
-        orderForm.storePreferencesData?.currencyCode ?? "BRL";
+        orderForm.storePreferencesData?.currencyCode ?? "BRL"
 
     return (
         <div id="orderform-panel">
@@ -45,7 +37,7 @@ export function OrderForm() {
                     <span className="orderform-label">City</span>
 
                     <span className="orderform-value">
-                        {orderForm.shippingData.address.city ?? "-"}
+                        {orderForm.shippingData?.address?.city ?? "-"}
                     </span>
                 </div>
 
@@ -55,7 +47,7 @@ export function OrderForm() {
                     </span>
 
                     <span className="orderform-value">
-                        {orderForm.shippingData.address.postalCode ?? "-"}
+                        {orderForm.shippingData?.address?.postalCode ?? "-"}
                     </span>
                 </div>
 
@@ -65,7 +57,7 @@ export function OrderForm() {
                     </span>
 
                     <span className="orderform-value">
-                        {orderForm.shippingData.address.country ?? "-"}
+                        {orderForm.shippingData?.address?.country ?? "-"}
                     </span>
                 </div>
 
@@ -75,7 +67,7 @@ export function OrderForm() {
                     </span>
 
                     <span className="orderform-value">
-                        {orderForm.shippingData.address.state ?? "-"}
+                        {orderForm.shippingData?.address?.state ?? "-"}
                     </span>
                 </div>
 
@@ -125,5 +117,5 @@ export function OrderForm() {
                 </div>
             </div>
         </div>
-    );
+    )
 }

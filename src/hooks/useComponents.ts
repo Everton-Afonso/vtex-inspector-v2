@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 import { sendMessage } from "../services/chrome";
-import type { Apps } from "../../types/components";
+import type { Apps } from "../types/components";
 
 export function useComponents(): Apps {
     const [components, setComponents] = useState<Apps>({});

@@ -1,8 +1,8 @@
 import { useMemo, useState } from "react"
 
-import { useComponents } from "../../hooks/useComponents"
-import { usePinnedApps } from "../../hooks/usePinnedApps"
-import { useCopyClipboard } from "../../hooks/useCopyClipboard"
+import { useComponents } from "../../../hooks/useComponents"
+import { usePinnedApps } from "../../../hooks/usePinnedApps"
+import { useCopyClipboard } from "../../../hooks/useCopyClipboard"
 
 import "./styles.css"
 
@@ -12,6 +12,8 @@ export function ComponentsList() {
     const { copy, isCopied } = useCopyClipboard();
     const [searchTerm, setSearchTerm] = useState("")
     const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc")
+
+    const hasComponents = Object.values(components).length > 0
 
     const filteredComponents = useMemo(() => {
         const value = searchTerm.toLowerCase().trim();
@@ -41,35 +43,41 @@ export function ComponentsList() {
 
     return (
         <>
-            <input
-                type="text"
-                placeholder="Search app..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="search"
-            />
+            {
+                hasComponents && (
+                    <>
+                        <input
+                            type="text"
+                            placeholder="Search app..."
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            className="search"
+                        />
 
-            <div className="apps-header">
-                <div className="apps-count">
-                    Apps ({totalApps})
-                </div>
+                        <div className="apps-header">
+                            <div className="apps-count">
+                                Apps ({totalApps})
+                            </div>
 
-                <select
-                    value={sortOrder}
-                    onChange={(e) =>
-                        setSortOrder(e.target.value as "asc" | "desc")
-                    }
-                    className="sort-select"
-                >
-                    <option value="asc">
-                        A - Z
-                    </option>
+                            <select
+                                value={sortOrder}
+                                onChange={(e) =>
+                                    setSortOrder(e.target.value as "asc" | "desc")
+                                }
+                                className="sort-select"
+                            >
+                                <option value="asc">
+                                    A - Z
+                                </option>
 
-                    <option value="desc">
-                        Z - A
-                    </option>
-                </select>
-            </div>
+                                <option value="desc">
+                                    Z - A
+                                </option>
+                            </select>
+                        </div>
+                    </>
+                )
+            }
 
             <div className="apps">
                 {filteredComponents.map((app) => (

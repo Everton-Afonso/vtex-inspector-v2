@@ -1,17 +1,11 @@
-import { useRuntime } from "../../hooks/useRuntime";
+import { useRuntime } from "../../../hooks/useRuntime"
 
-import "./styles.css";
+import "./styles.css"
 
 export function Runtime() {
-    const runtime = useRuntime();
+    const runtime = useRuntime()
 
-    if (!runtime) {
-        return (
-            <div className="runtime-empty">
-                Loading runtime...
-            </div>
-        );
-    }
+    if (!runtime) return <></>
 
     const items = [
         {
@@ -42,7 +36,7 @@ export function Runtime() {
             label: "Production",
             value: runtime.production ? "Yes" : "No",
         }
-    ];
+    ]
 
     return (
         <div className="runtime">
@@ -58,5 +52,5 @@ export function Runtime() {
                 </div>
             ))}
         </div>
-    );
+    )
 }

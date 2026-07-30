@@ -7,29 +7,37 @@ interface Props {
     onChange(tab: TabType): void;
 }
 
+const tabs = [
+    {
+        id: Tab.Runtime,
+        label: "Runtime",
+    },
+    {
+        id: Tab.Apps,
+        label: "Apps",
+    },
+    {
+        id: Tab.OrderForm,
+        label: "OrderForm",
+    },
+    {
+        id: Tab.Tokens,
+        label: "Tokens",
+    },
+];
+
 export function Tabs({ value, onChange }: Props) {
     return (
         <div className="tabs">
-            <button
-                className={value === Tab.Runtime ? "active" : ""}
-                onClick={() => onChange(Tab.Runtime)}
-            >
-                Runtime
-            </button>
-
-            <button
-                className={value === Tab.Apps ? "active" : ""}
-                onClick={() => onChange(Tab.Apps)}
-            >
-                Apps
-            </button>
-
-            <button
-                className={value === Tab.OrderForm ? "active" : ""}
-                onClick={() => onChange(Tab.OrderForm)}
-            >
-                OrderForm
-            </button>
+            {tabs.map((tab) => (
+                <button
+                    key={tab.id}
+                    className={value === tab.id ? "active" : ""}
+                    onClick={() => onChange(tab.id)}
+                >
+                    {tab.label}
+                </button>
+            ))}
         </div>
     );
 }
