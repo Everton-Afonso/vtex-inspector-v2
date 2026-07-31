@@ -23,33 +23,32 @@
   },
   "content_scripts": [
     {
-      "js": [
-        "assets/content.ts-B0-dEVgW.js"
-      ],
       "matches": [
         "https://*/*",
         "http://*/*"
+      ],
+      "js": [
+        "src/content/content.ts-loader.js"
       ],
       "type": "module"
     }
   ],
   "web_accessible_resources": [
     {
+      "resources": [
+        "page-script.js"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
+    },
+    {
       "matches": [
         "<all_urls>"
       ],
       "resources": [
-        "page-script.js"
-      ],
-      "use_dynamic_url": false
-    },
-    {
-      "matches": [
-        "http://*/*",
-        "https://*/*"
-      ],
-      "resources": [
-        "assets/content.ts-B0-dEVgW.js"
+        "**/*",
+        "*"
       ],
       "use_dynamic_url": false
     }
@@ -58,5 +57,9 @@
     "16": "icons/icon16.png",
     "48": "icons/icon48.png",
     "128": "icons/icon128.png"
+  },
+  "background": {
+    "service_worker": "service-worker-loader.js",
+    "type": "module"
   }
 }
