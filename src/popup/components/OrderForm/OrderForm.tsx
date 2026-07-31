@@ -1,24 +1,23 @@
-import { formatPrice } from "../../../utils/formatPrice"
-import { useOrderForm } from "../../../hooks/useOrderForm"
-import { useRuntime } from "../../../hooks/useRuntime"
-import { useCopyClipboard } from "../../../hooks/useCopyClipboard"
+import { formatPrice } from "@/utils/formatPrice"
+import { useOrderForm } from "@/hooks/useOrderForm"
+import { useRuntime } from "@/hooks/useRuntime"
+import { useCopyClipboard } from "@/hooks/useCopyClipboard"
 
-import { ActionButton } from "../../../ui/ActionButton"
+import { Button } from "@/components/ui/button"
+import { Label } from "@/components/ui/label"
+import { Separator } from "@/components/ui/separator"
 
-import "./styles.css"
+import { Download, Copy, Check } from "lucide-react"
 
 export function OrderForm() {
     const orderForm = useOrderForm()
     const runtime = useRuntime()
     const { copy, isCopied } = useCopyClipboard()
 
-    if (!orderForm || !runtime) return <></>
+    if (!orderForm || !runtime) return null
 
-    const locale =
-        orderForm.clientPreferencesData?.locale ?? "pt-BR"
-
-    const currency =
-        orderForm.storePreferencesData?.currencyCode ?? "BRL"
+    const locale = orderForm.clientPreferencesData?.locale ?? "pt-BR"
+    const currency = orderForm.storePreferencesData?.currencyCode ?? "BRL"
 
     function downloadOrderForm(orderForm: unknown) {
         const blob = new Blob(
@@ -38,127 +37,93 @@ export function OrderForm() {
     }
 
     function copyOrderForm() {
-        copy(
-            "orderform-json",
-            JSON.stringify(orderForm, null, 2)
-        )
+        copy("orderform-json", JSON.stringify(orderForm, null, 2))
     }
 
+    const infoRows = [
+        { label: "ID", value: orderForm.orderFormId },
+        { label: "Email", value: orderForm.clientProfileData?.email ?? "-" },
+        { label: "City", value: orderForm.shippingData?.address?.city ?? "-" },
+        { label: "Postal Code", value: orderForm.shippingData?.address?.postalCode ?? "-" },
+        { label: "Country", value: orderForm.shippingData?.address?.country ?? "-" },
+        { label: "State", value: orderForm.shippingData?.address?.state ?? "-" },
+    ]
+
     return (
-        <div id="orderform-panel">
-            <div id="orderform">
-                <div className="orderform-row">
-                    <span className="orderform-label">ID</span>
+        <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-2 p-3 rounded-lg border bg-card text-card-foreground">
+                {infoRows.map(({ label, value }) => (
+                    <div key={label} className="flex justify-between text-xs">
+                        <Label className="font-semibold text-muted-foreground">
+                            {label}
+                        </Label>
 
-                    <span className="orderform-value">
-                        {orderForm.orderFormId}
-                    </span>
-                </div>
+                        <span className="text-primary text-right">
+                            {value}
+                        </span>
+                    </div>
+                ))}
+            </div>
 
-                <div className="orderform-row">
-                    <span className="orderform-label">Email</span>
+            <Separator />
 
-                    <span className="orderform-value">
-                        {orderForm.clientProfileData?.email ?? "-"}
-                    </span>
-                </div>
+            <div className="flex flex-col gap-2">
+                <h3 className="text-sm font-semibold">
+                    Items ({orderForm.items.length})
+                </h3>
 
-                <div className="orderform-row">
-                    <span className="orderform-label">City</span>
+                {orderForm.items.map((item) => (
+                    <div
+                        key={item.uniqueId}
+                        className="flex flex-col gap-1 pb-2 border-b last:border-b-0"
+                    >
+                        <span className="text-sm font-semibold">
+                            {item.name}
+                        </span>
 
-                    <span className="orderform-value">
-                        {orderForm.shippingData?.address?.city ?? "-"}
-                    </span>
-                </div>
-
-                <div className="orderform-row">
-                    <span className="orderform-label">
-                        Postal Code
-                    </span>
-
-                    <span className="orderform-value">
-                        {orderForm.shippingData?.address?.postalCode ?? "-"}
-                    </span>
-                </div>
-
-                <div className="orderform-row">
-                    <span className="orderform-label">
-                        Country
-                    </span>
-
-                    <span className="orderform-value">
-                        {orderForm.shippingData?.address?.country ?? "-"}
-                    </span>
-                </div>
-
-                <div className="orderform-row">
-                    <span className="orderform-label">
-                        State
-                    </span>
-
-                    <span className="orderform-value">
-                        {orderForm.shippingData?.address?.state ?? "-"}
-                    </span>
-                </div>
-
-                <div className="orderform-items">
-                    <h3>
-                        Items ({orderForm.items.length})
-                    </h3>
-
-                    {orderForm.items.map((item) => (
-                        <div
-                            key={item.uniqueId}
-                            className="orderform-item"
-                        >
-                            <div className="item-name">
-                                {item.name}
-                            </div>
-
-                            <div className="item-info">
-                                <span>
-                                    Qty: {item.quantity}
-                                </span>
-
-                                <span>
-                                    {formatPrice(
-                                        item.sellingPrice,
-                                        locale,
-                                        currency
-                                    )}
-                                </span>
-                            </div>
+                        <div className="flex justify-between text-xs text-muted-foreground">
+                            <span>Qty: {item.quantity}</span>
+                            <span>
+                                {formatPrice(item.sellingPrice, locale, currency)}
+                            </span>
                         </div>
-                    ))}
-                </div>
+                    </div>
+                ))}
+            </div>
 
-                <div className="orderform-row orderform-total">
-                    <span className="orderform-label">
-                        Total
+            <Separator />
+
+            <div className="flex justify-between text-sm font-bold">
+                <span>Total</span>
+                <span>
+                    {formatPrice(orderForm.value, locale, currency)}
+                </span>
+            </div>
+
+            <div className="flex gap-2">
+                <Button
+                    variant="outline"
+                    className="flex-1"
+                    onClick={() => downloadOrderForm(orderForm)}
+                >
+                    <Download className="size-4" />
+                    <span className="text-xs">Download JSON</span>
+                </Button>
+
+                <Button
+                    variant="outline"
+                    className="flex-1"
+                    onClick={copyOrderForm}
+                >
+                    {isCopied("orderform-json") ? (
+                        <Check className="size-4 text-green-500" />
+                    ) : (
+                        <Copy className="size-4" />
+                    )}
+                    <span className="text-xs">
+                        {isCopied("orderform-json") ? "Copied" : "Copy"}
                     </span>
-
-                    <span className="orderform-value">
-                        {formatPrice(
-                            orderForm.value,
-                            locale,
-                            currency
-                        )}
-                    </span>
-                </div>
-
-                <div className="orderform-actions">
-                    <ActionButton
-                        onClick={() => downloadOrderForm(orderForm)}
-                    >
-                        ⬇ Download JSON
-                    </ActionButton>
-
-                    <ActionButton
-                        onClick={copyOrderForm}
-                    >
-                        {isCopied("orderform-json") ? "✔ Copied" : "📋 Copy"}
-                    </ActionButton>
-                </div>
+                </Button>
             </div>
         </div>
     )
