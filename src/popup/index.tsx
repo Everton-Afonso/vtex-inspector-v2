@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useActiveTab } from "@/hooks/useActiveTab"
 
 import { Tab, type TabType } from "@/types/Tab"
 
@@ -35,12 +35,12 @@ const tabs = [
 ] as const
 
 export function Popup() {
-    const [tab, setTab] = useState<TabType>(Tab.Runtime);
+    const { activeTab, changeTab } = useActiveTab();
 
     return (
         <Tabs
-            value={tab}
-            onValueChange={(v) => setTab(v as TabType)}
+            value={activeTab}
+            onValueChange={(v) => changeTab(v as TabType)}
             className="w-full"
         >
             <TabsList className="grid grid-cols-4 w-full sticky top-0 z-50 bg-background">
