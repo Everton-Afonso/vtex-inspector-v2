@@ -116,7 +116,7 @@ export function ComponentsList() {
         </>
       )}
 
-      <div className="flex flex-col gap-1.5 overflow-y-auto flex-1">
+      <div className="flex flex-col gap-1.5 overflow-y-auto flex-1 pr-1.5">
         {filteredComponents.map((app) => (
           <div
             key={app.id}
@@ -151,7 +151,7 @@ export function ComponentsList() {
               onClick={() => copy(app.id, `${app.app}@${app.version}`)}
             >
               {isCopied(app.id) ? (
-                <Check className="size-3.5 text-green-500" />
+                <Check className="size-3.5 text-success" />
               ) : (
                 <Copy className="size-3.5 text-muted-foreground" />
               )}
