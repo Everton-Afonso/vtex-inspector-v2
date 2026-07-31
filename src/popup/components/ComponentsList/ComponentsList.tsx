@@ -22,11 +22,12 @@ import {
 
 export function ComponentsList() {
   const components = useComponents();
-  const { togglePin, isPinned } = usePinnedApps();
+  const { togglePin, isPinned, pinnedApps } = usePinnedApps();
   const { copy, isCopied } = useCopyClipboard();
   const [searchTerm, setSearchTerm] = useState("");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
   const [showCustomOnly, setShowCustomOnly] = useState(false);
+  const [showPinnedOnly, setShowPinnedOnly] = useState(false);
 
   const hasComponents = Object.values(components).length > 0;
 
@@ -36,6 +37,7 @@ export function ComponentsList() {
     return Object.values(components)
       .filter(({ app }) => app.toLowerCase().includes(value))
       .filter((app) => !showCustomOnly || app.app.toLowerCase().includes("samsung"))
+      .filter((app) => !showPinnedOnly || isPinned(app.id))
       .sort((a, b) => {
         const aPinned = isPinned(a.id);
         const bPinned = isPinned(b.id);
@@ -48,7 +50,7 @@ export function ComponentsList() {
 
         return sortOrder === "asc" ? comparison : -comparison;
       });
-  }, [components, searchTerm, isPinned, sortOrder, showCustomOnly]);
+  }, [components, searchTerm, isPinned, sortOrder, showCustomOnly, showPinnedOnly]);
 
   const totalApps = filteredComponents.length;
 
@@ -71,6 +73,17 @@ export function ComponentsList() {
             <span className="text-sm font-semibold">Apps ({totalApps})</span>
 
             <div className="flex items-center gap-1.5">
+              <Button
+                variant={showPinnedOnly ? "default" : "outline"}
+                size="icon"
+                className="size-7"
+                title="Mostrar apenas apps fixados"
+                disabled={pinnedApps.length === 0}
+                onClick={() => setShowPinnedOnly((prev) => !prev)}
+              >
+                <Pin className="size-3.5" />
+              </Button>
+
               <Button
                 variant={showCustomOnly ? "default" : "outline"}
                 size="icon"
