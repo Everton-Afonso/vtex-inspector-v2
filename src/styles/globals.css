@@ -117,11 +117,23 @@
   * {
     @apply border-border outline-ring/50;
   }
+  html,
   body {
     @apply bg-background text-foreground;
-    width: 350px;
+    width: 480px;
+    max-width: 480px;
+    max-height: 600px;
     margin: 0;
-    padding: 12px;
+    padding: 0;
+    overflow: hidden;
     font-family: ui-sans-serif, system-ui, sans-serif;
+  }
+  body {
+    height: 600px;
+  }
+  #root {
+    height: 100%;
+    padding: 12px;
+    overflow: hidden;
   }
 }
