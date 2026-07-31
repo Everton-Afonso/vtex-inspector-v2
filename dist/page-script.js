@@ -47,9 +47,12 @@ window.fetch = async (...args) => {
         args[0] : args[0] instanceof Request ? args[0].url : ""
 
     if (url.includes("/api/checkout/pub/orderForm")) {
+        const data = await response.clone().json()
+
         window.postMessage(
             {
                 type: "ORDERFORM_UPDATED",
+                orderForm: data,
             }, "*"
         )
     }

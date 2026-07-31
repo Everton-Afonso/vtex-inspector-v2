@@ -1,18 +1,48 @@
 import { formatPrice } from "../../../utils/formatPrice"
 import { useOrderForm } from "../../../hooks/useOrderForm"
+import { useRuntime } from "../../../hooks/useRuntime"
+import { useCopyClipboard } from "../../../hooks/useCopyClipboard"
+
+import { ActionButton } from "../../../ui/ActionButton"
 
 import "./styles.css"
 
 export function OrderForm() {
     const orderForm = useOrderForm()
+    const runtime = useRuntime()
+    const { copy, isCopied } = useCopyClipboard()
 
-    if (!orderForm) return <></>
+    if (!orderForm || !runtime) return <></>
 
     const locale =
         orderForm.clientPreferencesData?.locale ?? "pt-BR"
 
     const currency =
         orderForm.storePreferencesData?.currencyCode ?? "BRL"
+
+    function downloadOrderForm(orderForm: unknown) {
+        const blob = new Blob(
+            [JSON.stringify(orderForm, null, 2)],
+            { type: "application/json" }
+        )
+
+        const url = URL.createObjectURL(blob)
+
+        const a = document.createElement("a")
+
+        a.href = url
+        a.download = `orderForm-${Date.now()}.json`
+        a.click()
+
+        URL.revokeObjectURL(url)
+    }
+
+    function copyOrderForm() {
+        copy(
+            "orderform-json",
+            JSON.stringify(orderForm, null, 2)
+        )
+    }
 
     return (
         <div id="orderform-panel">
@@ -114,6 +144,20 @@ export function OrderForm() {
                             currency
                         )}
                     </span>
+                </div>
+
+                <div className="orderform-actions">
+                    <ActionButton
+                        onClick={() => downloadOrderForm(orderForm)}
+                    >
+                        ⬇ Download JSON
+                    </ActionButton>
+
+                    <ActionButton
+                        onClick={copyOrderForm}
+                    >
+                        {isCopied("orderform-json") ? "✔ Copied" : "📋 Copy"}
+                    </ActionButton>
                 </div>
             </div>
         </div>

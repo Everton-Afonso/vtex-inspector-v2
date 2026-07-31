@@ -1,5 +1,5 @@
 export interface Runtime {
-    account?: string
+    account: string
     workspace?: string
     production?: boolean
     platform?: string

@@ -2,8 +2,12 @@ import { useEffect, useState } from 'react'
 
 import { decodeJwt } from '../../../utils/decodeJwt'
 import { formatDate } from '../../../utils/formatDate'
+
 import { useCopyClipboard } from '../../../hooks/useCopyClipboard'
+
 import { getCookies } from '../../../services/getCookies'
+
+import { ActionButton } from '../../../ui/ActionButton'
 
 import './styles.css'
 
@@ -97,17 +101,17 @@ export function Tokens() {
                     </p>
 
                     <div className="token-actions">
-                        <button
+                        <ActionButton
                             onClick={() => toggleToken(token.name)}
                         >
                             {visibleTokens[token.name] ? 'Hide token' : 'Show token'}
-                        </button>
+                        </ActionButton>
 
-                        <button
+                        <ActionButton
                             onClick={() => copy(token.name, token.token)}
                         >
-                            {isCopied(token.name) ? 'Copied✔️' : 'Copy'}
-                        </button>
+                            {isCopied(token.name) ? '✔ Copied' : 'Copy'}
+                        </ActionButton>
                     </div>
 
                     {visibleTokens[token.name] && (

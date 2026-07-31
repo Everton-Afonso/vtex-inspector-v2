@@ -1,0 +1,16 @@
+.popup {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    max-height: 460px;
+    overflow-y: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+.popup::-webkit-scrollbar {
+    display: none;
+}
+
+.popup-content {
+    flex: 1;
+}

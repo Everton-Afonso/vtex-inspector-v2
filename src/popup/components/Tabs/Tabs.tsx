@@ -28,16 +28,19 @@ const tabs = [
 
 export function Tabs({ value, onChange }: Props) {
     return (
-        <div className="tabs">
-            {tabs.map((tab) => (
-                <button
-                    key={tab.id}
-                    className={value === tab.id ? "active" : ""}
-                    onClick={() => onChange(tab.id)}
-                >
-                    {tab.label}
-                </button>
-            ))}
-        </div>
+        <header className="tabs">
+            <nav className="tabs-nav" aria-label="Navigation">
+                {tabs.map((tab) => (
+                    <button
+                        key={tab.id}
+                        type="button"
+                        className={value === tab.id ? "active" : ""}
+                        onClick={() => onChange(tab.id)}
+                    >
+                        {tab.label}
+                    </button>
+                ))}
+            </nav>
+        </header>
     );
 }

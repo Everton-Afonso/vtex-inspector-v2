@@ -1,0 +1,22 @@
+.action-button {
+    flex: 1;
+    border: 1px solid #ddd;
+    background: #fff;
+    border-radius: 6px;
+    padding: 8px 10px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all .2s ease;
+}
+
+.action-button:hover:not(:disabled) {
+    border-color: #0b6bcb;
+    background: #f5f9ff;
+    color: #0b6bcb;
+}
+
+.action-button:disabled {
+    opacity: .6;
+    cursor: not-allowed;
+}
