@@ -97,6 +97,10 @@ export function Popup() {
             <TabsContent value={Tab.Tokens} className="mt-3 flex-1 overflow-y-auto">
                 <Tokens />
             </TabsContent>
+
+            <footer className="flex items-center justify-center py-1 shrink-0">
+                <span className="text-[10px] text-muted-foreground">SDS • VTEX Inspector</span>
+            </footer>
         </Tabs>
     );
 }
