@@ -62,7 +62,7 @@ export function Tokens() {
 
     function getTokenIcon(type?: string) {
         if (type === "admin") return <ShieldCheck className="size-4 text-primary" />
-        if (type === "webstore") return <Globe className="size-4 text-blue-500" />
+        if (type === "webstore") return <Globe className="size-4 text-info" />
         if (type === "session") return <User className="size-4 text-muted-foreground" />
         return <ShieldCheck className="size-4 text-muted-foreground" />
     }
@@ -136,7 +136,7 @@ export function Tokens() {
                             onClick={() => copy(token.name, token.token)}
                         >
                             {isCopied(token.name) ? (
-                                <Check className="size-3.5 text-green-500" />
+                                <Check className="size-3.5 text-success" />
                             ) : (
                                 <Copy className="size-3.5" />
                             )}

@@ -116,7 +116,7 @@ export function OrderForm() {
                     onClick={copyOrderForm}
                 >
                     {isCopied("orderform-json") ? (
-                        <Check className="size-4 text-green-500" />
+                        <Check className="size-4 text-success" />
                     ) : (
                         <Copy className="size-4" />
                     )}
