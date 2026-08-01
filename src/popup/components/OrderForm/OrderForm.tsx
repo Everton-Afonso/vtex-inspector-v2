@@ -205,11 +205,11 @@ export function OrderForm() {
                         key={item.uniqueId}
                         className="flex gap-3 p-2.5 rounded-lg border bg-card text-card-foreground"
                     >
-                        <div className="size-16 shrink-0 overflow-hidden rounded-md border bg-card">
+                        <div className="size-16 shrink-0 overflow-hidden rounded-md border bg-white">
                             <img
                                 src={item.imageUrl}
                                 alt={item.name}
-                                className="size-full object-cover"
+                                className="size-full object-cover p-1"
                                 loading="lazy"
                             />
                         </div>
