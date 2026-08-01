@@ -3,20 +3,26 @@
 
   const injectTime = performance.now();
   (async () => {
-    if ("vendor/crx-client-preamble.js")
+    try {
+      if ("../../vendor/crx-client-preamble.js")
+        await import(
+          /* @vite-ignore */
+          "../../vendor/crx-client-preamble.js"
+        );
       await import(
         /* @vite-ignore */
-        chrome.runtime.getURL("vendor/crx-client-preamble.js")
+        "../../vendor/vite-client.js"
       );
-    await import(
-      /* @vite-ignore */
-      chrome.runtime.getURL("vendor/vite-client.js")
-    );
+    } catch (error) {
+      console.warn("[crx] MAIN world HMR client failed to load", error);
+    }
     const { onExecute } = await import(
       /* @vite-ignore */
-      chrome.runtime.getURL("src/content/content.ts.js")
+      "./content.ts.js"
     );
-    onExecute?.({ perf: { injectTime, loadTime: performance.now() - injectTime } });
+    onExecute?.({
+      perf: { injectTime, loadTime: performance.now() - injectTime }
+    });
   })().catch(console.error);
 
 })();
