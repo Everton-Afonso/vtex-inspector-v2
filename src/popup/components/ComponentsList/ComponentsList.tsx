@@ -62,7 +62,7 @@ export function ComponentsList() {
             <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
             <Input
               type="text"
-              placeholder="Search app..."
+              placeholder="Buscar app..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="pl-8 text-sm"

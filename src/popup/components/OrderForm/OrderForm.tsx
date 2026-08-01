@@ -24,11 +24,11 @@ export function OrderForm() {
 
     const totalizerLabels: Record<string, string> = {
         Items: "Subtotal",
-        Shipping: "Shipping",
-        Discounts: "Discounts",
-        Tax: "Tax",
-        GiftCard: "Gift Card",
-        Interest: "Interest",
+        Shipping: "Frete",
+        Discounts: "Descontos",
+        Tax: "Taxa",
+        GiftCard: "Vale-presente",
+        Interest: "Juros",
     }
 
     const visibleTotalizers = orderForm.totalizers.filter((t) => t.value !== 0)
@@ -56,10 +56,10 @@ export function OrderForm() {
 
     const infoRows = [
         { label: "Email", value: orderForm.clientProfileData?.email ?? "-" },
-        { label: "City", value: orderForm.shippingData?.address?.city ?? "-" },
-        { label: "Postal Code", value: orderForm.shippingData?.address?.postalCode ?? "-" },
-        { label: "Country", value: orderForm.shippingData?.address?.country ?? "-" },
-        { label: "State", value: orderForm.shippingData?.address?.state ?? "-" },
+        { label: "Cidade", value: orderForm.shippingData?.address?.city ?? "-" },
+        { label: "CEP", value: orderForm.shippingData?.address?.postalCode ?? "-" },
+        { label: "País", value: orderForm.shippingData?.address?.country ?? "-" },
+        { label: "Estado", value: orderForm.shippingData?.address?.state ?? "-" },
     ]
 
     return (
@@ -78,7 +78,7 @@ export function OrderForm() {
                             variant="ghost"
                             size="icon"
                             className="size-4"
-                            title="Copy orderForm ID"
+                            title="Copiar ID do orderForm"
                             onClick={() => copy("orderform-id", orderForm.orderFormId)}
                         >
                             {isCopied("orderform-id") ? (
@@ -105,7 +105,7 @@ export function OrderForm() {
                 {orderForm.marketingData?.coupon && (
                     <div className="flex justify-between items-center text-xs">
                         <Label className="font-semibold text-muted-foreground">
-                            Coupon
+                            Cupom
                         </Label>
 
                         <div className="flex items-center gap-1.5">
@@ -117,7 +117,7 @@ export function OrderForm() {
                                 variant="ghost"
                                 size="icon"
                                 className="size-4"
-                                title="Copy coupon"
+                                title="Copiar cupom"
                                 onClick={() => copy("orderform-coupon", orderForm.marketingData!.coupon)}
                             >
                                 {isCopied("orderform-coupon") ? (
@@ -136,7 +136,7 @@ export function OrderForm() {
                     variant="ghost"
                     size="icon"
                     className="size-7"
-                    title="Download JSON"
+                    title="Baixar JSON"
                     onClick={() => downloadOrderForm(orderForm)}
                 >
                     <Download className="size-3.5" />
@@ -146,7 +146,7 @@ export function OrderForm() {
                     variant="ghost"
                     size="icon"
                     className="size-7"
-                    title="Copy orderForm JSON"
+                    title="Copiar JSON do orderForm"
                     onClick={copyOrderForm}
                 >
                     {isCopied("orderform-json") ? (
@@ -160,9 +160,9 @@ export function OrderForm() {
                     variant="ghost"
                     size="icon"
                     className="size-7"
-                    title="Generate new orderForm"
+                    title="Gerar novo orderForm"
                     onClick={() =>
-                        confirm("Generate a new orderForm?")
+                        confirm("Gerar um novo orderForm?")
                         && refreshOrderForm()
                     }
                 >
@@ -174,17 +174,17 @@ export function OrderForm() {
 
             <div className="flex items-center justify-between shrink-0">
                 <h3 className="text-sm font-semibold leading-none">
-                    Items ({orderForm.items.length})
+                    Itens ({orderForm.items.length})
                 </h3>
 
                 <Button
                     variant="ghost"
                     size="icon"
                     className="size-6 shrink-0"
-                    title="Clear orderForm"
+                    title="Limpar orderForm"
                     disabled={orderForm.items.length === 0}
                     onClick={() =>
-                        confirm("Clear all items from the orderForm?")
+                        confirm("Limpar todos os itens do orderForm?")
                         && clearOrderForm()
                     }
                 >
@@ -196,7 +196,7 @@ export function OrderForm() {
                 {orderForm.items.length === 0 ? (
                     <div className="flex flex-col items-center justify-center gap-2 py-8 text-muted-foreground">
                         <ShoppingBag className="size-8 opacity-40" />
-                        <span className="text-xs">No items in the orderForm</span>
+                        <span className="text-xs">Nenhum item no orderForm</span>
                     </div>
                 ) : (
                     <div className="flex flex-col gap-2 pr-1.5">
@@ -223,8 +223,7 @@ export function OrderForm() {
                                 <div className="flex items-center flex-wrap gap-x-3 gap-y-1">
                                     <div className="flex items-center gap-1">
                                         <span className="text-[11px] text-muted-foreground">
-                                            skuId: {item.id}
-                                        </span>
+                                            skuId: {item.id}                                        </span>
                                         <Button
                                             variant="ghost"
                                             size="icon"
@@ -260,7 +259,7 @@ export function OrderForm() {
                             </div>
 
                             <div className="flex justify-between text-xs text-muted-foreground mt-1">
-                                <span>Qty: {item.quantity}</span>
+                                <span>Qtd: {item.quantity}</span>
                                 <span className="text-primary font-medium">
                                     {formatPrice(item.sellingPrice, locale, currency)}
                                 </span>
@@ -279,8 +278,7 @@ export function OrderForm() {
                     className="flex justify-between items-center text-sm font-bold cursor-pointer select-none"
                     onClick={() => setShowTotalizers((prev) => !prev)}
                 >
-                    <span>Total</span>
-                    <span className="flex items-center gap-1">
+                    <span>Total</span>                    <span className="flex items-center gap-1">
                         {formatPrice(orderForm.value, locale, currency)}
                         {visibleTotalizers.length > 0 && (
                             <ChevronDown
