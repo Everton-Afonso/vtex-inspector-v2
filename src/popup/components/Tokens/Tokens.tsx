@@ -70,7 +70,7 @@ export function Tokens() {
     function getTokenTitle(type?: string) {
         if (type === "admin") return "Admin"
         if (type === "webstore") return "Storefront"
-        if (type === "session") return "Session"
+        if (type === "session") return "Sessão"
         return "Token"
     }
 
@@ -92,24 +92,24 @@ export function Tokens() {
 
                     <div className="flex flex-col gap-1.5 text-xs">
                         <div className="flex justify-between">
-                            <Label className="text-muted-foreground">Account</Label>
+                            <Label className="text-muted-foreground">Conta</Label>
                             <span className="text-foreground">{token.account}</span>
                         </div>
 
                         <div className="flex justify-between">
-                            <Label className="text-muted-foreground">Name</Label>
+                            <Label className="text-muted-foreground">Nome</Label>
                             <span className="text-foreground max-w-[200px] truncate" title={token.name}>
                                 {token.name}
                             </span>
                         </div>
 
                         <div className="flex justify-between">
-                            <Label className="text-muted-foreground">Type</Label>
+                            <Label className="text-muted-foreground">Tipo</Label>
                             <span className="text-foreground">{token.type}</span>
                         </div>
 
                         <div className="flex justify-between">
-                            <Label className="text-muted-foreground">Expires</Label>
+                            <Label className="text-muted-foreground">Expira</Label>
                             <span className="text-foreground">{token.expires}</span>
                         </div>
                     </div>
@@ -126,7 +126,7 @@ export function Tokens() {
                                 <Eye className="size-3.5" />
                             )}
                             <span className="text-xs">
-                                {visibleTokens[token.name] ? "Hide" : "Show"}
+                                {visibleTokens[token.name] ? "Ocultar" : "Mostrar"}
                             </span>
                         </Button>
 
@@ -141,7 +141,7 @@ export function Tokens() {
                                 <Copy className="size-3.5" />
                             )}
                             <span className="text-xs">
-                                {isCopied(token.name) ? "Copied" : "Copy"}
+                                {isCopied(token.name) ? "Copiado" : "Copiar"}
                             </span>
                         </Button>
                     </div>

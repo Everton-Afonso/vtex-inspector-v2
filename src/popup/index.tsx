@@ -58,7 +58,7 @@ export function Popup() {
                     variant="ghost"
                     size="icon"
                     className="size-7"
-                    title={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+                    title={theme === "dark" ? "Mudar para modo claro" : "Mudar para modo escuro"}
                     onClick={toggleTheme}
                 >
                     {theme === "dark" ? (
@@ -79,9 +79,9 @@ export function Popup() {
                 <div className="flex-1 flex flex-col items-center justify-center gap-2 px-4 text-center">
                     <Store className="size-8 text-muted-foreground opacity-40" />
                     <p className="text-xs text-muted-foreground">
-                        Not a VTEX store.
+                        Esta página não é uma loja VTEX.
                         <br />
-                        Open a VTEX page to use the inspector.
+                        Abra uma página VTEX para usar o inspector.
                     </p>
                 </div>
             ) : (
