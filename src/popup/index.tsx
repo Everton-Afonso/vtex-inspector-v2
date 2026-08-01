@@ -1,5 +1,6 @@
 import { useActiveTab } from "@/hooks/useActiveTab"
 import { useTheme } from "@/hooks/useTheme"
+import { useVtexStore } from "@/hooks/useVtexStore"
 
 import { Tab, type TabType } from "@/types/Tab"
 
@@ -12,7 +13,7 @@ import { OrderForm } from "./components/OrderForm/OrderForm"
 import { Runtime } from "./components/Runtime/Runtime"
 import { Tokens } from "./components/Tokens/Tokens"
 
-import { Boxes, KeyRound, Moon, Package, Server, Sun } from "lucide-react"
+import { Boxes, KeyRound, Moon, Package, Server, Sun, Store } from "lucide-react"
 
 const tabs = [
     {

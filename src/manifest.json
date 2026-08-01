@@ -30,6 +30,17 @@
             "js": [
                 "src/content/content.ts"
             ],
+            "world": "MAIN",
+            "type": "module"
+        },
+        {
+            "matches": [
+                "https://*/*",
+                "http://*/*"
+            ],
+            "js": [
+                "src/content/content.ts"
+            ],
             "type": "module"
         }
     ],
