@@ -65,7 +65,7 @@ export function ComponentsList() {
               placeholder="Search app..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-8"
+              className="pl-8 text-sm"
             />
           </div>
 
