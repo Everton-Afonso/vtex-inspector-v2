@@ -205,7 +205,7 @@ export function OrderForm() {
                         key={item.uniqueId}
                         className="flex gap-3 p-2.5 rounded-lg border bg-card text-card-foreground"
                     >
-                        <div className="size-16 shrink-0 overflow-hidden rounded-md border" style={{ backgroundColor: "#fff" }}>
+                        <div className="size-16 shrink-0 overflow-hidden rounded-md border bg-card">
                             <img
                                 src={item.imageUrl}
                                 alt={item.name}
