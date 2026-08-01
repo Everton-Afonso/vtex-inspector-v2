@@ -23,43 +23,44 @@
   },
   "content_scripts": [
     {
+      "js": [
+        "assets/content.ts-ZffR5Zpt.js"
+      ],
       "matches": [
         "https://*/*",
         "http://*/*"
-      ],
-      "js": [
-        "src/content/content.ts-loader.js"
       ],
       "world": "MAIN",
       "type": "module"
     },
     {
+      "js": [
+        "assets/content.ts-ZffR5Zpt.js"
+      ],
       "matches": [
         "https://*/*",
         "http://*/*"
-      ],
-      "js": [
-        "src/content/content.ts-loader.js"
       ],
       "type": "module"
     }
   ],
   "web_accessible_resources": [
     {
+      "matches": [
+        "<all_urls>"
+      ],
       "resources": [
         "page-script.js"
       ],
-      "matches": [
-        "<all_urls>"
-      ]
+      "use_dynamic_url": false
     },
     {
       "matches": [
-        "<all_urls>"
+        "http://*/*",
+        "https://*/*"
       ],
       "resources": [
-        "**/*",
-        "*"
+        "assets/content.ts-ZffR5Zpt.js"
       ],
       "use_dynamic_url": false
     }
@@ -68,9 +69,5 @@
     "16": "icons/icon16.png",
     "48": "icons/icon48.png",
     "128": "icons/icon128.png"
-  },
-  "background": {
-    "service_worker": "service-worker-loader.js",
-    "type": "module"
   }
 }

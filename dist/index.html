@@ -1,10 +1,28 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
-    <title>CRXJS DEV MODE</title>
-    <script src="/assets/loading-page-b11ca3fc.js" type="module"></script>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>vtex-inspector</title>
+    <script>
+      (function () {
+        var stored = localStorage.getItem("@sds.vtex-inspector.theme");
+        var theme =
+          stored === "light" || stored === "dark"
+            ? stored
+            : window.matchMedia("(prefers-color-scheme: dark)").matches
+              ? "dark"
+              : "light";
+        if (theme === "dark") document.documentElement.classList.add("dark");
+      })();
+    </script>
+    <script type="module" crossorigin src="/assets/popup-BUTGQn3-.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/popup-D4wfOsQc.css">
   </head>
+
   <body>
-    <p>An unknown error occurred. Failed to load the script.</p>
+    <div id="root"></div>
+    
   </body>
 </html>
