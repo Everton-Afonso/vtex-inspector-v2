@@ -56,10 +56,10 @@ export function OrderForm() {
 
     const infoRows = [
         { label: "Email", value: orderForm.clientProfileData?.email ?? "-" },
-        { label: "Cidade", value: orderForm.shippingData?.address?.city ?? "-" },
-        { label: "CEP", value: orderForm.shippingData?.address?.postalCode ?? "-" },
-        { label: "País", value: orderForm.shippingData?.address?.country ?? "-" },
-        { label: "Estado", value: orderForm.shippingData?.address?.state ?? "-" },
+        { label: "City", value: orderForm.shippingData?.address?.city ?? "-" },
+        { label: "Postal Code", value: orderForm.shippingData?.address?.postalCode ?? "-" },
+        { label: "Country", value: orderForm.shippingData?.address?.country ?? "-" },
+        { label: "State", value: orderForm.shippingData?.address?.state ?? "-" },
     ]
 
     return (
@@ -105,7 +105,7 @@ export function OrderForm() {
                 {orderForm.marketingData?.coupon && (
                     <div className="flex justify-between items-center text-xs">
                         <Label className="font-semibold text-muted-foreground">
-                            Cupom
+                            Coupon
                         </Label>
 
                         <div className="flex items-center gap-1.5">
@@ -174,7 +174,7 @@ export function OrderForm() {
 
             <div className="flex items-center justify-between shrink-0">
                 <h3 className="text-sm font-semibold leading-none">
-                    Itens ({orderForm.items.length})
+                    Items ({orderForm.items.length})
                 </h3>
 
                 <Button

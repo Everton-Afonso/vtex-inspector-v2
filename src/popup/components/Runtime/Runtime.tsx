@@ -9,7 +9,7 @@ export function Runtime() {
 
     const items = [
         {
-            label: "Conta",
+            label: "Account",
             value: runtime.account,
         },
         {
@@ -17,23 +17,23 @@ export function Runtime() {
             value: runtime.workspace,
         },
         {
-            label: "Página",
+            label: "Page",
             value: runtime.page,
         },
         {
-            label: "Caminho Raiz",
+            label: "Root Path",
             value: runtime.rootPath,
         },
         {
-            label: "Localidade",
+            label: "Locale",
             value: runtime.culture?.locale,
         },
         {
-            label: "Moeda",
+            label: "Currency",
             value: runtime.culture?.currency,
         },
         {
-            label: "Produção",
+            label: "Production",
             value: runtime.production ? "Sim" : "Não",
         },
     ]

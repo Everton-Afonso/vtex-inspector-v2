@@ -92,24 +92,24 @@ export function Tokens() {
 
                     <div className="flex flex-col gap-1.5 text-xs">
                         <div className="flex justify-between">
-                            <Label className="text-muted-foreground">Conta</Label>
+                            <Label className="text-muted-foreground">Account</Label>
                             <span className="text-foreground">{token.account}</span>
                         </div>
 
                         <div className="flex justify-between">
-                            <Label className="text-muted-foreground">Nome</Label>
+                            <Label className="text-muted-foreground">Name</Label>
                             <span className="text-foreground max-w-[200px] truncate" title={token.name}>
                                 {token.name}
                             </span>
                         </div>
 
                         <div className="flex justify-between">
-                            <Label className="text-muted-foreground">Tipo</Label>
+                            <Label className="text-muted-foreground">Type</Label>
                             <span className="text-foreground">{token.type}</span>
                         </div>
 
                         <div className="flex justify-between">
-                            <Label className="text-muted-foreground">Expira</Label>
+                            <Label className="text-muted-foreground">Expires</Label>
                             <span className="text-foreground">{token.expires}</span>
                         </div>
                     </div>
