@@ -8,7 +8,7 @@ export default defineConfig({
         rollupOptions: {
             input: resolve(
                 __dirname,
-                "src/content/content.ts"
+                "src/content/content-isolated.ts"
             ),
 
             output: {

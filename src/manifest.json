@@ -28,18 +28,7 @@
                 "http://*/*"
             ],
             "js": [
-                "src/content/content.ts"
-            ],
-            "world": "MAIN",
-            "type": "module"
-        },
-        {
-            "matches": [
-                "https://*/*",
-                "http://*/*"
-            ],
-            "js": [
-                "src/content/content.ts"
+                "src/content/content-isolated.ts"
             ],
             "type": "module"
         }
