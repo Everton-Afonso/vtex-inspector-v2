@@ -17,10 +17,10 @@ export function OrderForm() {
     const { copy, isCopied } = useCopyClipboard()
     const [showTotalizers, setShowTotalizers] = useState(false)
 
-    if (!orderForm || !runtime) return null
+    if (!orderForm) return null
 
-    const locale = orderForm.clientPreferencesData?.locale ?? "pt-BR"
-    const currency = orderForm.storePreferencesData?.currencyCode ?? "BRL"
+    const locale = orderForm.clientPreferencesData?.locale ?? runtime?.culture?.locale ?? "pt-BR"
+    const currency = orderForm.storePreferencesData?.currencyCode ?? runtime?.culture?.currency ?? "BRL"
 
     const totalizerLabels: Record<string, string> = {
         Items: "Subtotal",

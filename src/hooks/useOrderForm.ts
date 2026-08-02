@@ -1,14 +1,53 @@
 import { useEffect, useState } from "react"
 import { sendMessage } from "../services/chrome"
+import { fetchOrderFormDirect } from "../services/orderform-fallback"
 import type { OrderForm } from "../types/orderform"
+
+const MAX_RETRIES = 15
+const RETRY_DELAY = 400
 
 export function useOrderForm() {
     const [orderForm, setOrderForm] = useState<OrderForm | null>(null)
 
     useEffect(() => {
-        sendMessage<OrderForm>({
-            type: "GET_ORDERFORM"
-        }).then(setOrderForm)
+        let cancelled = false
+        let attempt = 0
+
+        const check = async () => {
+            if (cancelled) return
+
+            const result = await sendMessage<OrderForm>({ type: "GET_ORDERFORM" })
+
+            if (cancelled) return
+
+            if (result && result.orderFormId) {
+                setOrderForm(result)
+                return
+            }
+
+            const direct = await fetchOrderFormDirect()
+
+            if (cancelled) return
+
+            if (direct && direct.orderFormId) {
+                setOrderForm(direct)
+                return
+            }
+
+            attempt++
+            if (attempt >= MAX_RETRIES) {
+                setOrderForm(null)
+                return
+            }
+
+            setTimeout(check, RETRY_DELAY)
+        }
+
+        check()
+
+        return () => {
+            cancelled = true
+        }
     }, [])
 
     async function clearOrderForm() {
