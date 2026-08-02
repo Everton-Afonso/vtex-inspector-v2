@@ -42,13 +42,17 @@ export function useVtexStore() {
         const check = async () => {
             if (cancelled) return
 
-            const cached = await chrome.storage.session.get("isVtex")
-            const cachedValue = cached?.isVtex as boolean | undefined
+            try {
+                const cached = await chrome.storage.session.get("isVtex")
+                const cachedValue = cached?.isVtex as boolean | undefined
 
-            if (cachedValue === true) {
-                setIsVtex(true)
-                setLoading(false)
-                return
+                if (cachedValue === true) {
+                    setIsVtex(true)
+                    setLoading(false)
+                    return
+                }
+            } catch {
+                // storage permission missing or unavailable — proceed without cache
             }
 
             let attempt = 0
@@ -68,7 +72,7 @@ export function useVtexStore() {
                     if (runtime && runtime.account) {
                         setIsVtex(true)
                         setLoading(false)
-                        chrome.storage.session.set({ isVtex: true })
+                        try { chrome.storage.session.set({ isVtex: true }) } catch {}
                         return
                     }
 
@@ -76,7 +80,7 @@ export function useVtexStore() {
                     if (attempt >= MAX_RETRIES) {
                         setIsVtex(true)
                         setLoading(false)
-                        chrome.storage.session.set({ isVtex: true })
+                        try { chrome.storage.session.set({ isVtex: true }) } catch {}
                         return
                     }
 
@@ -93,7 +97,7 @@ export function useVtexStore() {
                     if (attempt >= MAX_RETRIES) {
                         setIsVtex(true)
                         setLoading(false)
-                        chrome.storage.session.set({ isVtex: true })
+                        try { chrome.storage.session.set({ isVtex: true }) } catch {}
                         return
                     }
 
@@ -105,7 +109,7 @@ export function useVtexStore() {
                 if (attempt >= 3) {
                     setIsVtex(false)
                     setLoading(false)
-                    chrome.storage.session.set({ isVtex: false })
+                    try { chrome.storage.session.set({ isVtex: false }) } catch {}
                     return
                 }
 
