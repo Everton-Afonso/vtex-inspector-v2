@@ -24,18 +24,7 @@
   "content_scripts": [
     {
       "js": [
-        "assets/content.ts-ZffR5Zpt.js"
-      ],
-      "matches": [
-        "https://*/*",
-        "http://*/*"
-      ],
-      "world": "MAIN",
-      "type": "module"
-    },
-    {
-      "js": [
-        "assets/content.ts-ZffR5Zpt.js"
+        "assets/content-isolated.ts-DAzaBMEA.js"
       ],
       "matches": [
         "https://*/*",
@@ -60,7 +49,7 @@
         "https://*/*"
       ],
       "resources": [
-        "assets/content.ts-ZffR5Zpt.js"
+        "assets/content-isolated.ts-DAzaBMEA.js"
       ],
       "use_dynamic_url": false
     }

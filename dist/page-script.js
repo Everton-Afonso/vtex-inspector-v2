@@ -31,30 +31,36 @@ const interval = setInterval(() => {
 
     if (runtime && runtime.components && Object.keys(runtime.components).length > 0) {
         clearInterval(interval)
+        clearTimeout(timeout)
 
         sendRuntime()
     }
 }, 500)
 
-//Monitora alterações no orderForm
+const timeout = setTimeout(() => {
+    clearInterval(interval)
+}, 30000)
 
 const originalFetch = window.fetch
 
 window.fetch = async (...args) => {
     const response = await originalFetch(...args)
 
-    const url = typeof args[0] === "string" ?
-        args[0] : args[0] instanceof Request ? args[0].url : ""
+    try {
+        const url = typeof args[0] === "string" ?
+            args[0] : args[0] instanceof Request ? args[0].url : ""
 
-    if (url.includes("/api/checkout/pub/orderForm")) {
-        const data = await response.clone().json()
+        if (url.includes("/api/checkout/pub/orderForm")) {
+            const data = await response.clone().json()
 
-        window.postMessage(
-            {
-                type: "ORDERFORM_UPDATED",
-                orderForm: data,
-            }, "*"
-        )
+            window.postMessage(
+                {
+                    type: "ORDERFORM_UPDATED",
+                    orderForm: data,
+                }, "*"
+            )
+        }
+    } catch {
     }
 
     return response
