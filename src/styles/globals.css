@@ -141,11 +141,17 @@
     font-family: ui-sans-serif, system-ui, sans-serif;
   }
   body {
+    height: auto;
+    min-height: 0;
+  }
+  body:has(.vtex-popup) {
     height: 600px;
   }
-  #root {
-    height: 100%;
+  body:has(.vtex-popup) #root {
     padding: 12px;
+    height: 100%;
+  }
+  #root {
     overflow: hidden;
   }
   ::-webkit-scrollbar {

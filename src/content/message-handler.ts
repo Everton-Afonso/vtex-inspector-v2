@@ -1,10 +1,14 @@
 import { getComponents } from "./components"
+import { detectVtex } from "./detectVtex"
 import { clearOrderForm, getOrderForm, newOrderForm } from "./orderform"
 import { getRuntimeInfos } from "./runtimeInfos";
 
 
 chrome.runtime.onMessage.addListener((message, _, sendResponse) => {
     switch (message.type) {
+        case "CHECK_VTEX": sendResponse(detectVtex())
+            return true
+
         case "GET_COMPONENTS": sendResponse(getComponents())
             return true
 

@@ -9,6 +9,7 @@ import { Separator } from "@/components/ui/separator"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 import { ComponentsList } from "./components/ComponentsList/ComponentsList"
+import { Logo } from "./components/Logo"
 import { OrderForm } from "./components/OrderForm/OrderForm"
 import { Runtime } from "./components/Runtime/Runtime"
 import { Tokens } from "./components/Tokens/Tokens"
@@ -43,17 +44,42 @@ export function Popup() {
     const { theme, toggleTheme } = useTheme();
     const isVtex = useVtexStore();
 
+    if (isVtex === null) {
+        return (
+            <div className="w-full flex items-center justify-center gap-3 py-4 px-6">
+                <Store className="size-6 animate-pulse text-muted-foreground shrink-0" />
+                <p className="text-xs text-muted-foreground leading-snug">
+                    Detectando página VTEX...
+                </p>
+            </div>
+        );
+    }
+
+    if (isVtex === false) {
+        return (
+            <div className="w-full flex items-center justify-center gap-3 py-4 px-6">
+                <Store className="size-8 text-muted-foreground opacity-40 shrink-0" />
+                <div className="text-left">
+                    <p className="text-xs text-muted-foreground leading-snug">
+                        Esta página não é uma loja VTEX.
+                    </p>
+                    <p className="text-xs text-muted-foreground leading-snug">
+                        Abra uma página VTEX para usar o inspector.
+                    </p>
+                </div>
+            </div>
+        );
+    }
+
     return (
         <Tabs
             value={activeTab}
             onValueChange={(v) => changeTab(v as TabType)}
-            className="w-full h-full flex flex-col"
+            className="w-full h-full flex flex-col vtex-popup"
         >
             <div className="flex items-center justify-between py-1 shrink-0">
-                <div className="w-7" />
-                <svg xmlns="http://www.w3.org/2000/svg" width="105" height="16" viewBox="0 0 105 16" fill="none" fillRule="evenodd">
-                    <path fill="currentColor" fillRule="nonzero" d="M6.937 11.184c.155.363.104.829.026 1.114-.13.492-.466 1.01-1.45 1.01-.931 0-1.5-.544-1.5-1.347v-1.45H0v1.14C0 14.99 2.614 16 5.436 16c2.692 0 4.918-.932 5.28-3.417.181-1.295.052-2.123-.026-2.46-.62-3.133-6.29-4.065-6.73-5.8a2.047 2.047 0 01-.026-.776c.104-.466.44-1.01 1.372-1.01.88 0 1.398.544 1.398 1.346v.933h3.728V3.754C10.432.492 7.507 0 5.384 0 2.718 0 .569.88.155 3.314c-.103.673-.13 1.269.026 2.02.673 3.028 5.98 3.909 6.756 5.85zm48.534-.025c.155.362.103.828.026 1.087-.13.492-.466.984-1.45.984-.932 0-1.475-.544-1.475-1.347V10.46h-3.96v1.139c0 3.288 2.588 4.297 5.383 4.297 2.667 0 4.867-.906 5.23-3.391.18-1.269.05-2.123-.027-2.434-.621-3.107-6.238-4.013-6.652-5.747a2.012 2.012 0 01-.026-.777c.104-.466.414-.984 1.346-.984.854 0 1.372.544 1.372 1.346v.907h3.701V3.78c0-3.21-2.899-3.728-4.995-3.728-2.615 0-4.763.88-5.177 3.288-.104.647-.13 1.243.026 1.993.673 3.03 5.927 3.91 6.678 5.826zm30.984 1.32L86.248.466h3.701v14.757h-5.332L80.864 2.822l.207 12.401h-3.676V.466h5.54l3.52 12.013zM19.335 1.553l-2.07 13.826h-4.038L15.971.466h6.652l2.744 14.913h-4.012l-2.02-13.826zm21.796 0L38.542 15.38h-3.779L32.201 1.553l-.104 13.826H28.37L28.68.466h6.083l1.89 11.65 1.89-11.65h6.082l.337 14.913h-3.728l-.103-13.826zm26.868 11.6c1.035 0 1.372-.726 1.424-1.088.026-.156.026-.389.026-.57V.44h3.779v10.72c0 .284-.026.828-.026.983-.259 2.797-2.46 3.703-5.203 3.703-2.744 0-4.944-.906-5.203-3.703-.026-.155-.052-.699-.026-.983V.44h3.78v11.055c0 .181 0 .414.025.57.078.388.389 1.087 1.424 1.087zm31.165-.156c1.087 0 1.45-.7 1.527-1.088.026-.18.052-.388.026-.57V9.165H99.19V6.99h5.28v4.013c0 .285 0 .492-.051.984-.259 2.719-2.615 3.676-5.255 3.676-2.64 0-4.996-.957-5.254-3.676-.052-.492-.052-.699-.052-.984V4.712c0-.259.026-.725.052-.984C94.246.932 96.498.052 99.164.052c2.64 0 4.97.88 5.229 3.676.052.466.026.984.026.984v.492h-3.78v-.829s0-.362-.051-.57c-.078-.336-.362-1.087-1.501-1.087-1.088 0-1.398.725-1.476 1.088-.052.207-.052.414-.052.57z" />
-                </svg>
+<div className="w-7" />
+                <Logo />
                 <Button
                     variant="ghost"
                     size="icon"
@@ -71,56 +97,39 @@ export function Popup() {
 
             <Separator className="!w-4/5 mx-auto shrink-0" />
 
-            {isVtex === null ? (
-                <div className="flex-1 flex items-center justify-center">
-                    <Store className="size-6 animate-pulse text-muted-foreground" />
-                </div>
-            ) : isVtex === false ? (
-                <div className="flex-1 flex flex-col items-center justify-center gap-2 px-4 text-center">
-                    <Store className="size-8 text-muted-foreground opacity-40" />
-                    <p className="text-xs text-muted-foreground">
-                        Esta página não é uma loja VTEX.
-                        <br />
-                        Abra uma página VTEX para usar o inspector.
-                    </p>
-                </div>
-            ) : (
-                <>
-                    <TabsList className="grid grid-cols-4 w-full shrink-0 bg-background">
-                        {tabs.map((t) => {
-                            const Icon = t.icon
-                            return (
-                                <TabsTrigger
-                                    key={t.id}
-                                    value={t.id}
-                                    className="gap-1"
-                                >
-                                    <Icon className="size-3.5" />
-                                    <span className="text-xs">{t.label}</span>
-                                </TabsTrigger>
-                            )
-                        })}
-                    </TabsList>
+            <TabsList className="grid grid-cols-4 w-full shrink-0 bg-background">
+                {tabs.map((t) => {
+                    const Icon = t.icon
+                    return (
+                        <TabsTrigger
+                            key={t.id}
+                            value={t.id}
+                            className="gap-1"
+                        >
+                            <Icon className="size-3.5" />
+                            <span className="text-xs">{t.label}</span>
+                        </TabsTrigger>
+                    )
+                })}
+            </TabsList>
 
-                    <Separator className="w-full shrink-0" />
+            <Separator className="w-full shrink-0" />
 
-                    <TabsContent value={Tab.Runtime} className="pt-3 flex-1 overflow-y-auto">
-                        <Runtime />
-                    </TabsContent>
+            <TabsContent value={Tab.Runtime} className="pt-3 flex-1 overflow-y-auto">
+                <Runtime />
+            </TabsContent>
 
-                    <TabsContent value={Tab.Apps} className="pt-3 flex-1 overflow-hidden">
-                        <ComponentsList />
-                    </TabsContent>
+            <TabsContent value={Tab.Apps} className="pt-3 flex-1 overflow-hidden">
+                <ComponentsList />
+            </TabsContent>
 
-                    <TabsContent value={Tab.OrderForm} className="pt-3 flex-1 overflow-y-auto">
-                        <OrderForm />
-                    </TabsContent>
+            <TabsContent value={Tab.OrderForm} className="pt-3 flex-1 overflow-y-auto">
+                <OrderForm />
+            </TabsContent>
 
-                    <TabsContent value={Tab.Tokens} className="pt-3 flex-1 overflow-y-auto">
-                        <Tokens />
-                    </TabsContent>
-                </>
-            )}
+            <TabsContent value={Tab.Tokens} className="pt-3 flex-1 overflow-y-auto">
+                <Tokens />
+            </TabsContent>
 
             <footer className="flex flex-col items-center justify-center shrink-0" style={{ paddingTop: "2px", paddingBottom: "2px" }}>
                 <Separator className="!w-[90%] mx-auto mb-1" />
