@@ -1,3 +1,5 @@
+import type { OrderForm } from "../types/orderform"
+
 export function getRuntimeFromPage<T>(): Promise<T | null> {
     return new Promise(resolve => {
         chrome.tabs.query({ active: true, currentWindow: true }, async ([tab]) => {
@@ -66,6 +68,33 @@ try {
                 })
 
                 resolve(results?.[0]?.result ?? null)
+            } catch {
+                resolve(null)
+            }
+        })
+    })
+}
+
+export function getOrderFormFromCheckout(): Promise<OrderForm | null> {
+    return new Promise(resolve => {
+        chrome.tabs.query({ active: true, currentWindow: true }, async ([tab]) => {
+            if (!tab?.id) {
+                resolve(null)
+                return
+            }
+
+            try {
+                const results = await chrome.scripting.executeScript({
+                    target: { tabId: tab.id },
+                    world: "MAIN",
+                    func: () => {
+                        const checkout = (window as Record<string, unknown>).__CHECKOUT__ as { orderForm?: Record<string, unknown> } | undefined
+                        if (!checkout?.orderForm?.orderFormId) return null
+                        return checkout.orderForm
+                    },
+                })
+
+                resolve((results?.[0]?.result as OrderForm) ?? null)
             } catch {
                 resolve(null)
             }

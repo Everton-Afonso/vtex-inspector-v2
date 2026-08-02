@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { sendMessage } from "../services/chrome"
 import { fetchOrderFormDirect } from "../services/orderform-fallback"
+import { getOrderFormFromCheckout } from "../services/runtime-scripting"
 import type { OrderForm } from "../types/orderform"
 
 const MAX_RETRIES = 15
@@ -15,6 +16,15 @@ export function useOrderForm() {
 
         const check = async () => {
             if (cancelled) return
+
+            const fromCheckout = await getOrderFormFromCheckout()
+
+            if (cancelled) return
+
+            if (fromCheckout && fromCheckout.orderFormId) {
+                setOrderForm(fromCheckout)
+                return
+            }
 
             const result = await sendMessage<OrderForm>({ type: "GET_ORDERFORM" })
 
