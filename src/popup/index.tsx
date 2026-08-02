@@ -14,7 +14,7 @@ import { OrderForm } from "./components/OrderForm/OrderForm"
 import { Runtime } from "./components/Runtime/Runtime"
 import { Tokens } from "./components/Tokens/Tokens"
 
-import { Boxes, KeyRound, Moon, Package, Server, Sun, Store } from "lucide-react"
+import { Boxes, KeyRound, LoaderCircle, Moon, Package, Server, Sun, Store } from "lucide-react"
 
 const tabs = [
     {
@@ -47,7 +47,7 @@ export function Popup() {
     if (isVtex === null) {
         return (
             <div className="w-full flex items-center justify-center gap-3 py-4 px-6">
-                <Store className="size-6 animate-pulse text-muted-foreground shrink-0" />
+                <LoaderCircle className="size-5 animate-spin text-muted-foreground shrink-0" />
                 <p className="text-xs text-muted-foreground leading-snug">
                     Detectando página VTEX...
                 </p>
