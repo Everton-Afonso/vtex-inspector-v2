@@ -20,6 +20,6 @@ export function getRuntimeInfos() {
         hints: runtime.hints,
         loadedDevices: runtime.loadedDevices,
         binding: runtime.binding,
-        pages: runtime.pages.length
+        pages: (runtime.pages ?? []).length
     }
 }
