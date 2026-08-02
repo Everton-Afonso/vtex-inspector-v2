@@ -34,60 +34,85 @@ async function detectVtexFromCookies(): Promise<boolean> {
 
 export function useVtexStore() {
     const [isVtex, setIsVtex] = useState<boolean | null>(null)
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
         let cancelled = false
-        let attempt = 0
 
         const check = async () => {
             if (cancelled) return
 
-            const detected = await sendMessage<boolean>({ type: "CHECK_VTEX" })
+            const cached = await chrome.storage.session.get("isVtex")
+            const cachedValue = cached?.isVtex as boolean | undefined
 
-            if (cancelled) return
+            if (cachedValue === true) {
+                setIsVtex(true)
+                setLoading(false)
+                return
+            }
 
-            if (detected === true) {
-                const runtime = await sendMessage<Runtime>({ type: "GET_RUNTIME_INFOS" })
+            let attempt = 0
+
+            const retry = async () => {
+                if (cancelled) return
+
+                const detected = await sendMessage<boolean>({ type: "CHECK_VTEX" })
 
                 if (cancelled) return
 
-                if (runtime && runtime.account) {
-                    setIsVtex(true)
+                if (detected === true) {
+                    const runtime = await sendMessage<Runtime>({ type: "GET_RUNTIME_INFOS" })
+
+                    if (cancelled) return
+
+                    if (runtime && runtime.account) {
+                        setIsVtex(true)
+                        setLoading(false)
+                        chrome.storage.session.set({ isVtex: true })
+                        return
+                    }
+
+                    attempt++
+                    if (attempt >= MAX_RETRIES) {
+                        setIsVtex(true)
+                        setLoading(false)
+                        chrome.storage.session.set({ isVtex: true })
+                        return
+                    }
+
+                    setTimeout(retry, RETRY_DELAY)
+                    return
+                }
+
+                const cookieDetected = await detectVtexFromCookies()
+
+                if (cancelled) return
+
+                if (cookieDetected) {
+                    attempt++
+                    if (attempt >= MAX_RETRIES) {
+                        setIsVtex(true)
+                        setLoading(false)
+                        chrome.storage.session.set({ isVtex: true })
+                        return
+                    }
+
+                    setTimeout(retry, RETRY_DELAY)
                     return
                 }
 
                 attempt++
-                if (attempt >= MAX_RETRIES) {
-                    setIsVtex(true)
+                if (attempt >= 3) {
+                    setIsVtex(false)
+                    setLoading(false)
+                    chrome.storage.session.set({ isVtex: false })
                     return
                 }
 
-                setTimeout(check, RETRY_DELAY)
-                return
+                setTimeout(retry, RETRY_DELAY)
             }
 
-            const cookieDetected = await detectVtexFromCookies()
-
-            if (cancelled) return
-
-            if (cookieDetected) {
-                attempt++
-                if (attempt >= MAX_RETRIES) {
-                    setIsVtex(true)
-                    return
-                }
-
-                setTimeout(check, RETRY_DELAY)
-                return
-            }
-
-            attempt++
-            if (attempt >= 3) {
-                setIsVtex(false)
-                return
-            }
-
-            setTimeout(check, RETRY_DELAY)
+            retry()
         }
 
         check()
@@ -97,5 +122,5 @@ export function useVtexStore() {
         }
     }, [])
 
-    return isVtex
+    return { isVtex, loading }
 }

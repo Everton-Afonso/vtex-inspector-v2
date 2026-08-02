@@ -42,7 +42,7 @@ const tabs = [
 export function Popup() {
     const { activeTab, changeTab } = useActiveTab();
     const { theme, toggleTheme } = useTheme();
-    const isVtex = useVtexStore();
+    const { isVtex } = useVtexStore();
 
     if (isVtex === null) {
         return (

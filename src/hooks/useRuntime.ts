@@ -9,6 +9,7 @@ const RETRY_DELAY = 300
 
 export function useRuntime() {
     const [runtime, setRuntime] = useState<Runtime | null>(null)
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
         let cancelled = false
@@ -23,6 +24,7 @@ export function useRuntime() {
 
             if (fromContent && fromContent.account) {
                 setRuntime(fromContent)
+                setLoading(false)
                 return
             }
 
@@ -32,12 +34,14 @@ export function useRuntime() {
 
             if (fromScripting && fromScripting.account) {
                 setRuntime(fromScripting)
+                setLoading(false)
                 return
             }
 
             attempt++
             if (attempt >= MAX_RETRIES) {
                 setRuntime(null)
+                setLoading(false)
                 return
             }
 
@@ -51,5 +55,5 @@ export function useRuntime() {
         }
     }, [])
 
-    return runtime
+    return { runtime, loading }
 }

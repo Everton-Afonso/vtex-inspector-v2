@@ -32,8 +32,25 @@ function parseComponents(componentList: string[]): Apps {
     return apps
 }
 
-export function useComponents(): Apps {
+async function fetchComponents(): Promise<Apps> {
+    const fromContent = await sendMessage<Apps>({ type: "GET_COMPONENTS" })
+
+    if (fromContent && Object.keys(fromContent).length > 0) {
+        return fromContent
+    }
+
+    const componentList = await getComponentsFromPage<string[]>()
+
+    if (componentList && componentList.length > 0) {
+        return parseComponents(componentList)
+    }
+
+    return {}
+}
+
+export function useComponents() {
     const [components, setComponents] = useState<Apps>({});
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         let cancelled = false
@@ -42,27 +59,20 @@ export function useComponents(): Apps {
         const check = async () => {
             if (cancelled) return
 
-            const fromContent = await sendMessage<Apps>({ type: "GET_COMPONENTS" })
+            const result = await fetchComponents()
 
             if (cancelled) return
 
-            if (fromContent && Object.keys(fromContent).length > 0) {
-                setComponents(fromContent)
-                return
-            }
-
-            const componentList = await getComponentsFromPage<string[]>()
-
-            if (cancelled) return
-
-            if (componentList && componentList.length > 0) {
-                setComponents(parseComponents(componentList))
+            if (Object.keys(result).length > 0) {
+                setComponents(result)
+                setLoading(false)
                 return
             }
 
             attempt++
             if (attempt >= MAX_RETRIES) {
                 setComponents({})
+                setLoading(false)
                 return
             }
 
@@ -76,5 +86,12 @@ export function useComponents(): Apps {
         }
     }, []);
 
-    return components;
+    async function refreshComponents() {
+        setLoading(true)
+        const result = await fetchComponents()
+        setComponents(result)
+        setLoading(false)
+    }
+
+    return { components, loading, refreshComponents };
 }

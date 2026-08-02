@@ -1,9 +1,26 @@
 import { useRuntime } from "@/hooks/useRuntime"
 
 import { Label } from "@/components/ui/label"
+import { Skeleton } from "@/components/ui/skeleton"
 
 export function Runtime() {
-    const runtime = useRuntime()
+    const { runtime, loading } = useRuntime()
+
+    if (loading) {
+        return (
+            <div className="flex flex-col gap-1">
+                {Array.from({ length: 7 }).map((_, i) => (
+                    <div
+                        key={i}
+                        className="flex justify-between items-center px-3 py-2 border rounded-md bg-card"
+                    >
+                        <Skeleton className="h-3 w-20" />
+                        <Skeleton className="h-3 w-32" />
+                    </div>
+                ))}
+            </div>
+        )
+    }
 
     if (!runtime) return null
 

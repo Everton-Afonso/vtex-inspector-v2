@@ -8,14 +8,76 @@ import { useCopyClipboard } from "@/hooks/useCopyClipboard"
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import { Separator } from "@/components/ui/separator"
+import { Skeleton } from "@/components/ui/skeleton"
 
-import { Download, Copy, Check, Trash2, RefreshCw, ShoppingBag, Ticket, ChevronDown } from "lucide-react"
+import { Download, Copy, Check, Trash2, RefreshCw, FilePlus2, ShoppingBag, Ticket, ChevronDown } from "lucide-react"
 
 export function OrderForm() {
-    const { orderForm, clearOrderForm, refreshOrderForm } = useOrderForm()
-    const runtime = useRuntime()
+    const { orderForm, loading, clearOrderForm, refreshOrderForm, refreshOrderFormData } = useOrderForm()
+    const { runtime } = useRuntime()
     const { copy, isCopied } = useCopyClipboard()
     const [showTotalizers, setShowTotalizers] = useState(false)
+
+    if (loading) {
+        return (
+            <div className="flex flex-col gap-3 h-full">
+                <div className="flex flex-col gap-2 p-3 rounded-lg border bg-card">
+                    <div className="flex justify-between items-center">
+                        <Skeleton className="h-3 w-10" />
+                        <div className="flex items-center gap-1.5">
+                            <Skeleton className="h-3 w-40" />
+                            <Skeleton className="size-4 rounded-md" />
+                        </div>
+                    </div>
+                    {Array.from({ length: 4 }).map((_, i) => (
+                        <div key={i} className="flex justify-between">
+                            <Skeleton className="h-3 w-16" />
+                            <Skeleton className="h-3 w-32" />
+                        </div>
+                    ))}
+                </div>
+
+                <div className="flex items-center justify-end gap-1">
+                    <Skeleton className="size-7 rounded-md" />
+                    <Skeleton className="size-7 rounded-md" />
+                    <Skeleton className="size-7 rounded-md" />
+                    <Skeleton className="size-7 rounded-md" />
+                </div>
+
+                <Separator />
+
+                <div className="flex items-center justify-between">
+                    <Skeleton className="h-4 w-28" />
+                    <Skeleton className="size-6 rounded-md" />
+                </div>
+
+                <div className="flex-1 overflow-y-auto min-h-0">
+                    <div className="flex flex-col gap-2">
+                        {Array.from({ length: 3 }).map((_, i) => (
+                            <div key={i} className="flex gap-3 p-2.5 rounded-lg border bg-card">
+                                <Skeleton className="size-16 rounded-md shrink-0" />
+                                <div className="flex flex-col flex-1 gap-2 justify-between">
+                                    <Skeleton className="h-4 w-full" />
+                                    <Skeleton className="h-3 w-24" />
+                                    <div className="flex justify-between">
+                                        <Skeleton className="h-3 w-16" />
+                                        <Skeleton className="h-3 w-20" />
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+                <Separator />
+
+                <div className="flex justify-between">
+                    <Skeleton className="h-5 w-16" />
+                    <Skeleton className="h-5 w-28" />
+                </div>
+            </div>
+        )
+    }
 
     if (!orderForm) return null
 
@@ -160,13 +222,23 @@ export function OrderForm() {
                     variant="ghost"
                     size="icon"
                     className="size-7"
+                    title="Atualizar orderForm"
+                    onClick={() => refreshOrderFormData()}
+                >
+                    <RefreshCw className="size-3.5" />
+                </Button>
+
+                <Button
+                    variant="ghost"
+                    size="icon"
+                    className="size-7"
                     title="Gerar novo orderForm"
                     onClick={() =>
                         confirm("Gerar um novo orderForm?")
                         && refreshOrderForm()
                     }
                 >
-                    <RefreshCw className="size-3.5" />
+                    <FilePlus2 className="size-3.5 text-destructive" />
                 </Button>
             </div>
 

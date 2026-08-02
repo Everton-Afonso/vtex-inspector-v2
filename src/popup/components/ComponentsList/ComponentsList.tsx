@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
+import { Skeleton } from "@/components/ui/skeleton";
 
 import {
   ArrowDownAZ,
@@ -16,12 +17,13 @@ import {
   Copy,
   Pin,
   PinOff,
+  RefreshCw,
   Search,
   Star,
 } from "lucide-react";
 
 export function ComponentsList() {
-  const components = useComponents();
+  const { components, loading, refreshComponents } = useComponents();
   const { togglePin, isPinned, pinnedApps } = usePinnedApps();
   const { copy, isCopied } = useCopyClipboard();
   const [searchTerm, setSearchTerm] = useState("");
@@ -54,6 +56,37 @@ export function ComponentsList() {
 
   const totalApps = filteredComponents.length;
 
+  if (loading) {
+    return (
+      <div className="flex flex-col h-full gap-3">
+        <div className="relative shrink-0">
+          <Skeleton className="h-9 w-full rounded-md" />
+        </div>
+        <div className="flex items-center justify-between shrink-0">
+          <Skeleton className="h-4 w-24" />
+          <div className="flex gap-1.5">
+            <Skeleton className="size-7 rounded-md" />
+            <Skeleton className="size-7 rounded-md" />
+            <Skeleton className="size-7 rounded-md" />
+            <Skeleton className="size-7 rounded-md" />
+          </div>
+        </div>
+        <Separator className="shrink-0" />
+        <div className="flex flex-col gap-1.5 flex-1 overflow-hidden">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <div key={i} className="flex items-center gap-2 p-2.5 rounded-lg border bg-card">
+              <Skeleton className="h-4 w-14 rounded-md" />
+              <Skeleton className="h-4 flex-1" />
+              <Skeleton className="h-3 w-12" />
+              <Skeleton className="size-7 rounded-md" />
+              <Skeleton className="size-7 rounded-md" />
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col h-full gap-3">
       {hasComponents && (
@@ -73,6 +106,16 @@ export function ComponentsList() {
             <span className="text-sm font-semibold">Apps ({totalApps})</span>
 
             <div className="flex items-center gap-1.5">
+              <Button
+                variant="outline"
+                size="icon"
+                className="size-7"
+                title="Atualizar apps"
+                onClick={() => refreshComponents()}
+              >
+                <RefreshCw className="size-3.5" />
+              </Button>
+
               <Button
                 variant={showPinnedOnly ? "default" : "outline"}
                 size="icon"
@@ -127,7 +170,7 @@ export function ComponentsList() {
               className="uppercase text-[10px] shrink-0"
               style={
                 app.app.toLowerCase().startsWith("vtex")
-                  ? { backgroundColor: "#F71963" }
+                  ? { backgroundColor: "#F71963", color: "#fff" }
                   : app.app.toLowerCase().includes("samsung")
                     ? { backgroundColor: "#1428a0", color: "#fff" }
                     : undefined
