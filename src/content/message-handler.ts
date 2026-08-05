@@ -3,8 +3,16 @@ import { detectVtex } from "./detectVtex"
 import { clearOrderForm, getOrderForm, newOrderForm } from "./orderform"
 import { getRuntimeInfos } from "./runtimeInfos";
 
+type Message =
+  | { type: "CHECK_VTEX" }
+  | { type: "GET_COMPONENTS" }
+  | { type: "GET_RUNTIME_INFOS" }
+  | { type: "GET_ORDERFORM" }
+  | { type: "CLEAR_ORDERFORM"; orderFormId: string }
+  | { type: "NEW_ORDERFORM" }
+  | { type: "CLEAR_STORAGE"; keys: string[] }
 
-chrome.runtime.onMessage.addListener((message, _, sendResponse) => {
+chrome.runtime.onMessage.addListener((message: Message, _, sendResponse) => {
     switch (message.type) {
         case "CHECK_VTEX": sendResponse(detectVtex())
             return true
