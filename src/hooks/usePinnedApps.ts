@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const STORAGE_KEY = "vtex-inspector-pinned-apps";
+const STORAGE_KEY = "@sds.vtex-inspector.pinned-apps";
 
 export function usePinnedApps() {
     const [pinnedApps, setPinnedApps] = useState<string[]>([]);

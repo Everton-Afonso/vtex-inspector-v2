@@ -1,4 +1,4 @@
-import "./styles.css"
+import { Button } from "@/components/ui/button"
 
 interface Props {
     children: React.ReactNode
@@ -12,12 +12,13 @@ export function ActionButton({
     disabled = false,
 }: Props) {
     return (
-        <button
-            className="action-button"
+        <Button
+            variant="outline"
+            className="flex-1"
             onClick={onClick}
             disabled={disabled}
         >
             {children}
-        </button>
+        </Button>
     )
 }

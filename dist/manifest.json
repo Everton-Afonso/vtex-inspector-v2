@@ -1,51 +1,63 @@
 {
-    "manifest_version": 3,
-    "name": "VTEX Inspector",
-    "version": "1.0.0",
-    "description": "Inspect VTEX applications, components and orderForm data.",
-    "permissions": [
-        "activeTab",
-        "tabs",
-        "scripting",
-        "cookies"
-    ],
-    "host_permissions": [
+  "manifest_version": 3,
+  "name": "VTEX Inspector",
+  "version": "1.0.0",
+  "description": "Inspect VTEX applications, components and orderForm data.",
+  "permissions": [
+    "activeTab",
+    "tabs",
+    "scripting",
+    "cookies",
+    "storage"
+  ],
+  "host_permissions": [
+    "https://*/*",
+    "http://*/*"
+  ],
+  "action": {
+    "default_popup": "index.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "content_scripts": [
+    {
+      "js": [
+        "assets/content-isolated.ts-DAzaBMEA.js"
+      ],
+      "matches": [
         "https://*/*",
         "http://*/*"
-    ],
-    "action": {
-        "default_popup": "index.html",
-        "default_icon": {
-            "16": "icons/icon16.png",
-            "48": "icons/icon48.png",
-            "128": "icons/icon128.png"
-        }
-    },
-    "content_scripts": [
-        {
-            "matches": [
-                "https://*/*",
-                "http://*/*"
-            ],
-            "js": [
-                "assets/content.js"
-            ],
-            "type": "module"
-        }
-    ],
-    "web_accessible_resources": [
-        {
-            "resources": [
-                "page-script.js"
-            ],
-            "matches": [
-                "<all_urls>"
-            ]
-        }
-    ],
-    "icons": {
-        "16": "icons/icon16.png",
-        "48": "icons/icon48.png",
-        "128": "icons/icon128.png"
+      ],
+      "type": "module"
     }
+  ],
+  "web_accessible_resources": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "resources": [
+        "page-script.js"
+      ],
+      "use_dynamic_url": false
+    },
+    {
+      "matches": [
+        "http://*/*",
+        "https://*/*"
+      ],
+      "resources": [
+        "assets/content-isolated.ts-DAzaBMEA.js"
+      ],
+      "use_dynamic_url": false
+    }
+  ],
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
 }

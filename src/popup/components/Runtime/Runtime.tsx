@@ -1,11 +1,28 @@
-import { useRuntime } from "../../../hooks/useRuntime"
+import { useRuntime } from "@/hooks/useRuntime"
 
-import "./styles.css"
+import { Label } from "@/components/ui/label"
+import { Skeleton } from "@/components/ui/skeleton"
 
 export function Runtime() {
-    const runtime = useRuntime()
+    const { runtime, loading } = useRuntime()
 
-    if (!runtime) return <></>
+    if (loading) {
+        return (
+            <div className="flex flex-col gap-1">
+                {Array.from({ length: 7 }).map((_, i) => (
+                    <div
+                        key={i}
+                        className="flex justify-between items-center px-3 py-2 border rounded-md bg-card"
+                    >
+                        <Skeleton className="h-3 w-20" />
+                        <Skeleton className="h-3 w-32" />
+                    </div>
+                ))}
+            </div>
+        )
+    }
+
+    if (!runtime) return null
 
     const items = [
         {
@@ -34,19 +51,22 @@ export function Runtime() {
         },
         {
             label: "Production",
-            value: runtime.production ? "Yes" : "No",
-        }
+            value: runtime.production ? "Sim" : "Não",
+        },
     ]
 
     return (
-        <div className="runtime">
+        <div className="flex flex-col gap-1">
             {items.map(({ label, value }) => (
-                <div key={label} className="runtime-card">
-                    <span className="runtime-label">
+                <div
+                    key={label}
+                    className="flex justify-between items-center px-3 py-2 border rounded-md bg-card text-card-foreground"
+                >
+                    <Label className="text-xs text-muted-foreground">
                         {label}
-                    </span>
+                    </Label>
 
-                    <span className="runtime-value">
+                    <span className="text-xs text-right break-words max-w-[180px] text-foreground">
                         {value ?? "-"}
                     </span>
                 </div>

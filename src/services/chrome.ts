@@ -1,5 +1,7 @@
 interface ChromeMessage {
-    type: "GET_COMPONENTS" | "GET_ORDERFORM" | "GET_RUNTIME_INFOS"
+    type: "CHECK_VTEX" | "GET_COMPONENTS" | "GET_ORDERFORM" | "GET_RUNTIME_INFOS" | "CLEAR_ORDERFORM" | "NEW_ORDERFORM" | "CLEAR_STORAGE"
+    orderFormId?: string;
+    keys?: string[];
 }
 
 export function sendMessage<T>(message: ChromeMessage): Promise<T | null> {

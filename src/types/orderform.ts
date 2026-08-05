@@ -1,4 +1,8 @@
 
+export interface MarketingData {
+    coupon: string;
+}
+
 export interface OrderForm {
     orderFormId: string;
     salesChannel: string;
@@ -11,6 +15,7 @@ export interface OrderForm {
     shippingData: ShippingData;
     clientPreferencesData: ClientPreferencesData;
     storePreferencesData: StorePreferencesData;
+    marketingData?: MarketingData;
 }
 
 export interface OrderFormItem {

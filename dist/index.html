@@ -5,8 +5,20 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>vtex-inspector</title>
-    <script type="module" crossorigin src="/assets/popup-nfJGTRiK.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/popup-CsMF7HWd.css">
+    <script>
+      (function () {
+        var stored = localStorage.getItem("@sds.vtex-inspector.theme");
+        var theme =
+          stored === "light" || stored === "dark"
+            ? stored
+            : window.matchMedia("(prefers-color-scheme: dark)").matches
+              ? "dark"
+              : "light";
+        if (theme === "dark") document.documentElement.classList.add("dark");
+      })();
+    </script>
+    <script type="module" crossorigin src="/assets/popup-CIAMCdHu.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/popup-B_fq_QZb.css">
   </head>
 
   <body>
