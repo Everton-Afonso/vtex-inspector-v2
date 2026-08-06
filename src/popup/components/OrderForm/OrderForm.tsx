@@ -10,10 +10,29 @@ import { Label } from "@/components/ui/label"
 import { Separator } from "@/components/ui/separator"
 import { Skeleton } from "@/components/ui/skeleton"
 
-import { Download, Copy, Check, Trash2, RefreshCw, FilePlus2, ShoppingBag, Ticket, ChevronDown } from "lucide-react"
+import {
+    Download,
+    Copy,
+    Check,
+    Trash2,
+    RefreshCw,
+    FilePlus2,
+    ShoppingBag,
+    Ticket,
+    ChevronDown,
+    Minus,
+    Plus
+} from "lucide-react"
 
 export function OrderForm() {
-    const { orderForm, loading, clearOrderForm, refreshOrderForm, refreshOrderFormData } = useOrderForm()
+    const {
+        orderForm,
+        loading,
+        clearOrderForm,
+        updateItemQuantity,
+        refreshOrderForm,
+        refreshOrderFormData
+    } = useOrderForm()
     const { runtime } = useRuntime()
     const { copy, isCopied } = useCopyClipboard()
     const [showTotalizers, setShowTotalizers] = useState(false)
@@ -136,6 +155,7 @@ export function OrderForm() {
                         <span className="text-primary text-right">
                             {orderForm.orderFormId}
                         </span>
+
                         <Button
                             variant="ghost"
                             size="icon"
@@ -172,9 +192,11 @@ export function OrderForm() {
 
                         <div className="flex items-center gap-1.5">
                             <Ticket className="size-3 text-success" />
+
                             <span className="text-primary text-right">
                                 {orderForm.marketingData.coupon}
                             </span>
+
                             <Button
                                 variant="ghost"
                                 size="icon"
@@ -268,77 +290,105 @@ export function OrderForm() {
                 {orderForm.items.length === 0 ? (
                     <div className="flex flex-col items-center justify-center gap-2 py-8 text-muted-foreground">
                         <ShoppingBag className="size-8 opacity-40" />
+
                         <span className="text-xs">Nenhum item no orderForm</span>
                     </div>
                 ) : (
                     <div className="flex flex-col gap-2 pr-1.5">
-                        {orderForm.items.map((item) => (
-                    <div
-                        key={item.uniqueId}
-                        className="flex gap-3 p-2.5 rounded-lg border bg-card text-card-foreground"
-                    >
-                        <div className="size-16 shrink-0 overflow-hidden rounded-md border bg-white">
-                            <img
-                                src={item.imageUrl}
-                                alt={item.name}
-                                className="size-full object-cover p-1"
-                                loading="lazy"
-                            />
-                        </div>
+                        {orderForm.items.map((item, itemIndex) => (
+                            <div
+                                key={item.uniqueId}
+                                className="flex gap-3 p-2.5 rounded-lg border bg-card text-card-foreground"
+                            >
+                                <div className="size-16 shrink-0 overflow-hidden rounded-md border bg-white">
+                                    <img
+                                        src={item.imageUrl}
+                                        alt={item.name}
+                                        className="size-full object-cover p-1"
+                                        loading="lazy"
+                                    />
+                                </div>
 
-                        <div className="flex flex-col min-w-0 flex-1 justify-between">
-                            <div className="flex flex-col gap-2">
-                                <span className="text-sm font-semibold leading-tight line-clamp-2">
-                                    {item.name}
-                                </span>
+                                <div className="flex flex-col min-w-0 flex-1 justify-between">
+                                    <div className="flex flex-col gap-2">
+                                        <span className="text-sm font-semibold leading-tight line-clamp-2">
+                                            {item.name}
+                                        </span>
 
-                                <div className="flex items-center flex-wrap gap-x-3 gap-y-1">
-                                    <div className="flex items-center gap-1">
-                                        <span className="text-[11px] text-muted-foreground">
-                                            skuId: {item.id}                                        </span>
-                                        <Button
-                                            variant="ghost"
-                                            size="icon"
-                                            className="size-4"
-                                            onClick={() => copy(`sku-${item.uniqueId}`, item.id)}
-                                        >
-                                            {isCopied(`sku-${item.uniqueId}`) ? (
-                                                <Check className="size-2.5 text-success" />
-                                            ) : (
-                                                <Copy className="size-2.5 text-muted-foreground" />
-                                            )}
-                                        </Button>
+                                        <div className="flex items-center flex-wrap gap-x-3 gap-y-1">
+                                            <div className="flex items-center gap-1">
+                                                <span className="text-[11px] text-muted-foreground">
+                                                    skuId: {item.id}
+                                                </span>
+
+                                                <Button
+                                                    variant="ghost"
+                                                    size="icon"
+                                                    className="size-4"
+                                                    onClick={() => copy(`sku-${item.uniqueId}`, item.id)}
+                                                >
+                                                    {isCopied(`sku-${item.uniqueId}`) ? (
+                                                        <Check className="size-2.5 text-success" />
+                                                    ) : (
+                                                        <Copy className="size-2.5 text-muted-foreground" />
+                                                    )}
+                                                </Button>
+                                            </div>
+
+                                            <div className="flex items-center gap-1">
+                                                <span className="text-[11px] text-muted-foreground">
+                                                    productId: {item.productId}
+                                                </span>
+
+                                                <Button
+                                                    variant="ghost"
+                                                    size="icon"
+                                                    className="size-4"
+                                                    onClick={() => copy(`prod-${item.uniqueId}`, item.productId)}
+                                                >
+                                                    {isCopied(`prod-${item.uniqueId}`) ? (
+                                                        <Check className="size-2.5 text-success" />
+                                                    ) : (
+                                                        <Copy className="size-2.5 text-muted-foreground" />
+                                                    )}
+                                                </Button>
+                                            </div>
+                                        </div>
                                     </div>
 
-                                    <div className="flex items-center gap-1">
-                                        <span className="text-[11px] text-muted-foreground">
-                                            productId: {item.productId}
+                                    <div className="flex justify-between items-center text-xs text-muted-foreground mt-1">
+                                        <div className="flex items-center gap-1">
+                                            <Button
+                                                variant="outline"
+                                                size="icon"
+                                                className="size-5"
+                                                disabled={item.quantity <= 1}
+                                                onClick={() => updateItemQuantity(itemIndex, item.quantity - 1)}
+                                            >
+                                                <Minus className="size-3" />
+                                            </Button>
+
+                                            <span className="min-w-6 text-center font-medium">
+                                                {item.quantity}
+                                            </span>
+
+                                            <Button
+                                                variant="outline"
+                                                size="icon"
+                                                className="size-5"
+                                                onClick={() => updateItemQuantity(itemIndex, item.quantity + 1)}
+                                            >
+                                                <Plus className="size-3" />
+                                            </Button>
+                                        </div>
+
+                                        <span className="text-primary font-medium">
+                                            {formatPrice(item.sellingPrice, locale, currency)}
                                         </span>
-                                        <Button
-                                            variant="ghost"
-                                            size="icon"
-                                            className="size-4"
-                                            onClick={() => copy(`prod-${item.uniqueId}`, item.productId)}
-                                        >
-                                            {isCopied(`prod-${item.uniqueId}`) ? (
-                                                <Check className="size-2.5 text-success" />
-                                            ) : (
-                                                <Copy className="size-2.5 text-muted-foreground" />
-                                            )}
-                                        </Button>
                                     </div>
                                 </div>
                             </div>
-
-                            <div className="flex justify-between text-xs text-muted-foreground mt-1">
-                                <span>Qtd: {item.quantity}</span>
-                                <span className="text-primary font-medium">
-                                    {formatPrice(item.sellingPrice, locale, currency)}
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                ))}
+                        ))}
                     </div>
                 )}
             </div>
@@ -350,8 +400,11 @@ export function OrderForm() {
                     className="flex justify-between items-center text-sm font-bold cursor-pointer select-none"
                     onClick={() => setShowTotalizers((prev) => !prev)}
                 >
-                    <span>Total</span>                    <span className="flex items-center gap-1">
+                    <span>Total</span>              
+
+                    <span className="flex items-center gap-1">
                         {formatPrice(orderForm.value, locale, currency)}
+
                         {visibleTotalizers.length > 0 && (
                             <ChevronDown
                                 className={`size-3.5 text-muted-foreground transition-transform ${showTotalizers ? "rotate-180" : ""}`}
@@ -369,6 +422,7 @@ export function OrderForm() {
                             className="flex justify-between items-center text-xs text-muted-foreground pr-5"
                         >
                             <span>{label}</span>
+                            
                             <span className={totalizer.id === "Discounts" ? "text-success" : ""}>
                                 {formatPrice(totalizer.value, locale, currency)}
                             </span>

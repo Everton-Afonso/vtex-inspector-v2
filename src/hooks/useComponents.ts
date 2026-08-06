@@ -39,7 +39,7 @@ async function fetchComponents(): Promise<Apps> {
         return fromContent
     }
 
-    const componentList = await getComponentsFromPage<string[]>()
+    const componentList = await getComponentsFromPage()
 
     if (componentList && componentList.length > 0) {
         return parseComponents(componentList)
@@ -66,13 +66,16 @@ export function useComponents() {
             if (Object.keys(result).length > 0) {
                 setComponents(result)
                 setLoading(false)
+
                 return
             }
 
             attempt++
+
             if (attempt >= MAX_RETRIES) {
                 setComponents({})
                 setLoading(false)
+
                 return
             }
 
@@ -88,7 +91,9 @@ export function useComponents() {
 
     async function refreshComponents() {
         setLoading(true)
+
         const result = await fetchComponents()
+        
         setComponents(result)
         setLoading(false)
     }

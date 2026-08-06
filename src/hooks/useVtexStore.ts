@@ -22,6 +22,7 @@ async function detectVtexFromCookies(): Promise<boolean> {
         }
 
         const cookies = await chrome.cookies.getAll({ url })
+
         return cookies.some(
             cookie =>
                 cookie.name.includes("VtexIdclientAutCookie") ||
@@ -106,10 +107,13 @@ export function useVtexStore() {
                 }
 
                 attempt++
+
                 if (attempt >= 3) {
                     setIsVtex(false)
                     setLoading(false)
+
                     try { chrome.storage.session.set({ isVtex: false }) } catch {}
+                    
                     return
                 }
 

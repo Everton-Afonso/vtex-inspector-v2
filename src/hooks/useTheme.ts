@@ -34,7 +34,9 @@ export function useTheme() {
 
     const changeTheme = useCallback((next: Theme) => {
         setTheme(next);
+
         localStorage.setItem(STORAGE_KEY, next);
+        
         applyTheme(next);
     }, []);
 

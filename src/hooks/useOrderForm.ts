@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react"
 import { sendMessage } from "../services/chrome"
 import { fetchOrderFormDirect } from "../services/orderform-fallback"
-import { getOrderFormFromCheckout } from "../services/runtime-scripting"
+import { 
+    getOrderFormFromCheckout, 
+    updateOrderFormItem 
+} from "../services/runtime-scripting"
 import type { OrderForm } from "../types/orderform"
 
 const MAX_RETRIES = 15
@@ -47,6 +50,7 @@ export function useOrderForm() {
             if (result) {
                 setOrderForm(result)
                 setLoading(false)
+
                 return
             }
 
@@ -54,6 +58,7 @@ export function useOrderForm() {
             if (attempt >= MAX_RETRIES) {
                 setOrderForm(null)
                 setLoading(false)
+
                 return
             }
 
@@ -69,7 +74,9 @@ export function useOrderForm() {
 
     async function refreshOrderFormData() {
         setLoading(true)
+        
         const result = await fetchOrderFormData()
+
         setOrderForm(result)
         setLoading(false)
     }
@@ -83,6 +90,25 @@ export function useOrderForm() {
         })
 
         if (updated) setOrderForm(updated)
+    }
+
+    async function updateItemQuantity(index: number, quantity: number) {
+        const updated = await updateOrderFormItem(index, quantity)
+
+        if (updated) {
+            setOrderForm(updated)
+        } else {
+            if (!orderForm?.orderFormId) return
+
+            const fallback = await sendMessage<OrderForm>({
+                type: "UPDATE_ITEM",
+                orderFormId: orderForm.orderFormId,
+                index,
+                quantity
+            })
+
+            if (fallback) setOrderForm(fallback)
+        }
     }
 
     async function refreshOrderForm() {
@@ -102,5 +128,12 @@ export function useOrderForm() {
         })
     }
 
-    return { orderForm, loading, clearOrderForm, refreshOrderForm, refreshOrderFormData }
+    return { 
+        orderForm, 
+        loading, 
+        clearOrderForm, 
+        updateItemQuantity, 
+        refreshOrderForm, 
+        refreshOrderFormData 
+    }
 }

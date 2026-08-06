@@ -78,8 +78,10 @@ export function Popup() {
             className="w-full h-full flex flex-col vtex-popup"
         >
             <div className="flex items-center justify-between py-1 shrink-0">
-<div className="w-7" />
+                <div className="w-7" />
+
                 <Logo />
+
                 <Button
                     variant="ghost"
                     size="icon"
@@ -98,16 +100,18 @@ export function Popup() {
             <Separator className="!w-4/5 mx-auto shrink-0" />
 
             <TabsList className="grid grid-cols-4 w-full shrink-0 bg-background">
-                {tabs.map((t) => {
-                    const Icon = t.icon
+                {tabs.map((tab) => {
+                    const Icon = tab.icon
+
                     return (
                         <TabsTrigger
-                            key={t.id}
-                            value={t.id}
+                            key={tab.id}
+                            value={tab.id}
                             className="gap-1"
                         >
                             <Icon className="size-3.5" />
-                            <span className="text-xs">{t.label}</span>
+
+                            <span className="text-xs">{tab.label}</span>
                         </TabsTrigger>
                     )
                 })}
@@ -133,6 +137,7 @@ export function Popup() {
 
             <footer className="flex flex-col items-center justify-center shrink-0" style={{ paddingTop: "2px", paddingBottom: "2px" }}>
                 <Separator className="!w-[90%] mx-auto mb-1" />
+                
                 <span className="text-[10px] text-muted-foreground">SDS • VTEX Inspector</span>
             </footer>
         </Tabs>

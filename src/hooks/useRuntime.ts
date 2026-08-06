@@ -28,13 +28,14 @@ export function useRuntime() {
                 return
             }
 
-            const fromScripting = await getRuntimeFromPage<Runtime>()
+            const fromScripting = await getRuntimeFromPage()
 
             if (cancelled) return
 
             if (fromScripting && fromScripting.account) {
                 setRuntime(fromScripting)
                 setLoading(false)
+
                 return
             }
 
@@ -42,6 +43,7 @@ export function useRuntime() {
             if (attempt >= MAX_RETRIES) {
                 setRuntime(null)
                 setLoading(false)
+                
                 return
             }
 

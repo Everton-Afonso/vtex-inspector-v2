@@ -4,7 +4,10 @@ export interface Runtime {
     production?: boolean
     platform?: string
     page?: string
-    route?: string
+    route?: {
+        id?: string
+        path?: string
+    }
     rootPath?: string
     publicEndpoint?: string
     culture?: {
@@ -26,4 +29,8 @@ export interface Runtime {
     }
     pages: string[]
     components: string[]
+    renderMajor?: number
+    runtimeMeta?: {
+        version: string
+    }
 }
