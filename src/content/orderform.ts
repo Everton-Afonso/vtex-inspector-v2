@@ -33,7 +33,7 @@ export async function updateItems(
 ) {
     try {
         const response = await fetch(
-            `/api/checkout/pub/orderForm/${orderFormId}/items/update`,
+            `/api/checkout/pub/orderForm/${orderFormId}/items`,
             {
                 method: "POST",
                 credentials: "include",
@@ -41,7 +41,35 @@ export async function updateItems(
                     "Content-Type": "application/json",
                     "Accept": "application/json"
                 },
-                body: JSON.stringify(items)
+                body: JSON.stringify(items),
+            }
+        )
+
+        if (!response.ok) return null
+
+        return response.json()
+    } catch {
+        return null
+    }
+}
+
+export async function removeItem(orderFormId: string, index: number) {
+    try {
+        const response = await fetch(
+            `/api/checkout/pub/orderForm/${orderFormId}/items`,
+            {
+                method: "POST",
+                credentials: "include",
+                headers: {
+                    "Content-Type": "application/json",
+                    Accept: "application/json",
+                },
+                body: JSON.stringify([
+                        {
+                            index,
+                            quantity: 0,
+                        },
+                    ]),
             }
         )
 

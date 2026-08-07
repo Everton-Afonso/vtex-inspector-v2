@@ -25,7 +25,7 @@
   "content_scripts": [
     {
       "js": [
-        "assets/content-isolated.ts-BitQMerg.js"
+        "assets/content-isolated.ts-CoI40YQs.js"
       ],
       "matches": [
         "https://*/*",
@@ -50,7 +50,7 @@
         "https://*/*"
       ],
       "resources": [
-        "assets/content-isolated.ts-BitQMerg.js"
+        "assets/content-isolated.ts-CoI40YQs.js"
       ],
       "use_dynamic_url": false
     }

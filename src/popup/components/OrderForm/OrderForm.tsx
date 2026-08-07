@@ -30,6 +30,7 @@ export function OrderForm() {
         loading,
         clearOrderForm,
         updateItemQuantity,
+        removeItem,
         refreshOrderForm,
         refreshOrderFormData
     } = useOrderForm()
@@ -382,9 +383,24 @@ export function OrderForm() {
                                             </Button>
                                         </div>
 
-                                        <span className="text-primary font-medium">
-                                            {formatPrice(item.sellingPrice, locale, currency)}
-                                        </span>
+                                        <div className="flex items-center gap-1.5">
+                                            <span className="text-primary font-medium">
+                                                {formatPrice(item.sellingPrice, locale, currency)}
+                                            </span>
+
+                                            <Button
+                                                variant="ghost"
+                                                size="icon"
+                                                className="size-5"
+                                                title="Remover item"
+                                                onClick={() =>
+                                                    confirm("Remover este item do orderForm?")
+                                                    && removeItem(itemIndex)
+                                                }
+                                            >
+                                                <Trash2 className="size-3 text-destructive" />
+                                            </Button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
