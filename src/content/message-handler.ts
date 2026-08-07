@@ -4,6 +4,7 @@ import {
     clearOrderForm,
     getOrderForm,
     newOrderForm,
+    removeItem,
     updateItems
 } from "./orderform"
 import { getRuntimeInfos } from "./runtimeInfos";
@@ -15,6 +16,7 @@ type Message =
     | { type: "GET_ORDERFORM" }
     | { type: "CLEAR_ORDERFORM"; orderFormId: string }
     | { type: "UPDATE_ITEM"; orderFormId: string; index: number; quantity: number }
+    | { type: "REMOVE_ITEM"; orderFormId: string; index: number }
     | { type: "NEW_ORDERFORM" }
     | { type: "CLEAR_STORAGE"; keys: string[] }
 
@@ -38,6 +40,9 @@ chrome.runtime.onMessage.addListener((message: Message, _, sendResponse) => {
         case "UPDATE_ITEM": updateItems(message.orderFormId, [{
             index: message.index, quantity: message.quantity
         }]).then(sendResponse);
+            return true;
+
+        case "REMOVE_ITEM": removeItem(message.orderFormId, message.index).then(sendResponse);
             return true;
 
         case "NEW_ORDERFORM": newOrderForm().then(sendResponse);

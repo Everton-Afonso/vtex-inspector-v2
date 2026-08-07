@@ -1,12 +1,13 @@
 interface ChromeMessage {
-    type: 
-        "CHECK_VTEX" | 
-        "GET_COMPONENTS" | 
-        "GET_ORDERFORM" | 
-        "GET_RUNTIME_INFOS" | 
-        "CLEAR_ORDERFORM" | 
-        "UPDATE_ITEM" | 
-        "NEW_ORDERFORM" | 
+    type:
+        "CHECK_VTEX" |
+        "GET_COMPONENTS" |
+        "GET_ORDERFORM" |
+        "GET_RUNTIME_INFOS" |
+        "CLEAR_ORDERFORM" |
+        "UPDATE_ITEM" |
+        "REMOVE_ITEM" |
+        "NEW_ORDERFORM" |
         "CLEAR_STORAGE"
     orderFormId?: string;
     index?: number;

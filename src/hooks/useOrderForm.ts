@@ -3,6 +3,7 @@ import { sendMessage } from "../services/chrome"
 import { fetchOrderFormDirect } from "../services/orderform-fallback"
 import { 
     getOrderFormFromCheckout, 
+    removeOrderFormItem,
     updateOrderFormItem 
 } from "../services/runtime-scripting"
 import type { OrderForm } from "../types/orderform"
@@ -111,6 +112,24 @@ export function useOrderForm() {
         }
     }
 
+    async function removeItem(index: number) {
+        const updated = await removeOrderFormItem(index)
+
+        if (updated) {
+            setOrderForm(updated)
+        } else {
+            if (!orderForm?.orderFormId) return
+
+            const fallback = await sendMessage<OrderForm>({
+                type: "REMOVE_ITEM",
+                orderFormId: orderForm.orderFormId,
+                index
+            })
+
+            if (fallback) setOrderForm(fallback)
+        }
+    }
+
     async function refreshOrderForm() {
         await sendMessage<OrderForm>({ type: "NEW_ORDERFORM" })
 
@@ -133,6 +152,7 @@ export function useOrderForm() {
         loading, 
         clearOrderForm, 
         updateItemQuantity, 
+        removeItem,
         refreshOrderForm, 
         refreshOrderFormData 
     }
