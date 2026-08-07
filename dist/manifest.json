@@ -25,7 +25,7 @@
   "content_scripts": [
     {
       "js": [
-        "assets/content-isolated.ts-DAzaBMEA.js"
+        "assets/content-isolated.ts-BitQMerg.js"
       ],
       "matches": [
         "https://*/*",
@@ -50,7 +50,7 @@
         "https://*/*"
       ],
       "resources": [
-        "assets/content-isolated.ts-DAzaBMEA.js"
+        "assets/content-isolated.ts-BitQMerg.js"
       ],
       "use_dynamic_url": false
     }

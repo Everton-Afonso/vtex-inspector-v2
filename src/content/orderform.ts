@@ -27,6 +27,32 @@ export async function newOrderForm() {
     }
 }
 
+export async function updateItems(
+    orderFormId: string,
+    items: { index: number; quantity: number }[]
+) {
+    try {
+        const response = await fetch(
+            `/api/checkout/pub/orderForm/${orderFormId}/items/update`,
+            {
+                method: "POST",
+                credentials: "include",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                },
+                body: JSON.stringify(items)
+            }
+        )
+
+        if (!response.ok) return null
+
+        return response.json()
+    } catch {
+        return null
+    }
+}
+
 export async function clearOrderForm(orderFormId: string) {
     try {
         const response = await fetch(
