@@ -4,12 +4,13 @@ import { decodeJwt } from "@/utils/decodeJwt"
 import { formatDate } from "@/utils/formatDate"
 import { useCopyClipboard } from "@/hooks/useCopyClipboard"
 import { getCookies } from "@/services/getCookies"
+import { removeAllCookies } from "@/services/removeAllCookies"
 
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import { Separator } from "@/components/ui/separator"
 
-import { Copy, Check, Eye, EyeOff, ShieldCheck, Globe, User } from "lucide-react"
+import { Copy, Check, Eye, EyeOff, ShieldCheck, Globe, User, Trash2 } from "lucide-react"
 
 interface TokenData {
     name: string
@@ -22,6 +23,7 @@ interface TokenData {
 export function Tokens() {
     const [tokens, setTokens] = useState<TokenData[]>([])
     const [visibleTokens, setVisibleTokens] = useState<Record<string, boolean>>({})
+    const [isDeletingCookies, setIsDeletingCookies] = useState(false)
     const { copy, isCopied } = useCopyClipboard()
 
     useEffect(() => {
@@ -74,8 +76,34 @@ export function Tokens() {
         return "Token"
     }
 
+    async function handleDeleteAllCookies() {
+        setIsDeletingCookies(true)
+
+        try {
+            await removeAllCookies()
+
+            chrome.tabs.query({ active: true, currentWindow: true }, ([tab]) => {
+                if (tab?.id) chrome.tabs.reload(tab.id)
+            })
+        } finally {
+            setIsDeletingCookies(false)
+        }
+    }
+
     return (
         <div className="flex flex-col gap-3">
+            <Button
+                variant="destructive"
+                className="flex items-center justify-center gap-2"
+                onClick={handleDeleteAllCookies}
+                disabled={isDeletingCookies}
+            >
+                <Trash2 className="size-4" />
+                <span className="text-sm font-semibold">
+                    {isDeletingCookies ? "Apagando..." : "Apagar todos os cookies e recarregar"}
+                </span>
+            </Button>
+            
             {tokens.map(token => (
                 <div
                     key={token.name}
