@@ -151,6 +151,9 @@
     padding: 12px;
     height: 100%;
   }
+  button {
+    cursor: pointer;
+  }
   #root {
     overflow: hidden;
   }
