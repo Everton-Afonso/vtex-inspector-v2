@@ -1,6 +1,6 @@
 {
     "manifest_version": 3,
-    "name": "VTEX Inspector",
+    "name": "SDS Page Helper",
     "version": "1.0.0",
     "description": "Inspect VTEX applications, components and orderForm data.",
     "permissions": [

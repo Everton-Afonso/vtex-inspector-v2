@@ -138,7 +138,7 @@ export function Popup() {
             <footer className="flex flex-col items-center justify-center shrink-0" style={{ paddingTop: "2px", paddingBottom: "2px" }}>
                 <Separator className="!w-[90%] mx-auto mb-1" />
                 
-                <span className="text-[10px] text-muted-foreground">SDS • VTEX Inspector</span>
+                <span className="text-[10px] text-muted-foreground">SDS • SDS Page Helper</span>
             </footer>
         </Tabs>
     );
